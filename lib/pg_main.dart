@@ -36,27 +36,27 @@ class MainPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   _buildIconButton(
-                    icon: Icons.computer,
+                    icon: Icons.code,
                     onPressed: () {
-                      _navigateTo(context, CodingPage());
+                      Navigator.pushNamed(context, '/pg_calendar');
                     },
                   ),
                   _buildIconButton(
                     icon: Icons.book,
                     onPressed: () {
-                      _navigateTo(context, ReadingPage());
+                      Navigator.pushNamed(context, '/pg_calendar');
                     },
                   ),
                   _buildIconButton(
                     icon: Icons.fitness_center,
                     onPressed: () {
-                      _navigateTo(context, WorkoutPage());
+                      Navigator.pushNamed(context, '/pg_calendar');
                     },
                   ),
                   _buildIconButton(
                     icon: Icons.music_note,
                     onPressed: () {
-                      _navigateTo(context, MusicPage());
+                      Navigator.pushNamed(context, '/pg_calendar');
                     },
                   ),
                 ],
@@ -180,63 +180,6 @@ class MainPage extends StatelessWidget {
       child: IconButton(
         icon: Icon(icon, color: Colors.white),
         onPressed: onPressed,
-      ),
-    );
-  }
-}
-
-// Example pages for navigation
-class CodingPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('코딩 페이지'),
-      ),
-      body: Center(
-        child: Text('이곳은 코딩 페이지입니다'),
-      ),
-    );
-  }
-}
-
-class ReadingPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('독서 페이지'),
-      ),
-      body: Center(
-        child: Text('이곳은 독서 페이지입니다'),
-      ),
-    );
-  }
-}
-
-class WorkoutPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('운동 페이지'),
-      ),
-      body: Center(
-        child: Text('이곳은 운동 페이지입니다'),
-      ),
-    );
-  }
-}
-
-class MusicPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('음악 페이지'),
-      ),
-      body: Center(
-        child: Text('이곳은 음악 페이지입니다'),
       ),
     );
   }

@@ -14,8 +14,8 @@ class LoginPage extends StatelessWidget {
                 margin: EdgeInsets.only(bottom: 20),
                 child: Image.asset(
                   'assets/logo.png',
-                  width: MediaQuery.of(context).size.width * 0.7, // 로고의 너비
-                  height: MediaQuery.of(context).size.width * 0.7, // 로고의 높이
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  height: MediaQuery.of(context).size.width * 0.7,
                 ),
               ),
               Container(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'pg_login.dart';
 import 'pg_register.dart';
 import 'pg_main.dart';
+import 'route_controller.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -13,11 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
       ),
       home: LoginPage(),
-      routes: {
-        '/login': (context) => LoginPage(),
-        '/signup': (context) => RegisterPage(),
-        '/pg_main': (context) => MainPage()
-      },
+      routes: route_controller,
     );
   }
 }

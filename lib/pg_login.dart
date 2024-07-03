@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
                       children: <Widget>[
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/signup');
+                            Navigator.pushNamed(context, '/pg_main');
                             // 로그인 로직
                           },
                           child: Text('로그인'),

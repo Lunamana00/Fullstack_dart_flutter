@@ -63,102 +63,127 @@ class MainPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16.0),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              margin: const EdgeInsets.all(20.0),
-              padding: const EdgeInsets.all(20.0),
-              decoration: BoxDecoration(
-                color: Colors.purple.shade200,
-                borderRadius: BorderRadius.circular(16.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: MediaQuery.of(context).size.width * 0.8,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16.0),
-                      image: DecorationImage(
-                        image: AssetImage('assets/not_my_fault.png'),
-                        fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/pg_profile');
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                width: MediaQuery.of(context).size.width * 0.9,
+                margin: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(30.0),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 238, 238, 238),
+                  borderRadius: BorderRadius.circular(16.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: MediaQuery.of(context).size.width * 0.6,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.0),
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/not_my_fault.png'), // 프로필 이미지 경로
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    child: Stack(
-                      children: <Widget>[
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: IconButton(
-                            icon: Icon(Icons.settings),
-                            onPressed: () {
-                              _navigateTo(context, SettingsPage());
-                            },
+                    SizedBox(height: 30),
+                    Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 195, 229),
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Lv.50',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '김태현',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: FractionallySizedBox(
+                                      widthFactor: 0.75,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                      color: Colors.purple.shade100,
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          '김태현',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          '100%',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 10.0),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(
+                  Container(
+                    padding: const EdgeInsets.all(4.0),
+                    width: MediaQuery.of(context).size.width * 0.8,
                     child: ElevatedButton.icon(
-                      icon: Icon(Icons.star),
-                      label: Text('랭킹'),
+                      icon: Icon(
+                        Icons.star,
+                        size: 34,
+                      ),
+                      label: Text(
+                        '랭킹',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
+                      ),
                       onPressed: () {
-                        _navigateTo(context, RankingPage());
-                      },
-                    ),
-                  ),
-                  SizedBox(width: 16.0),
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      icon: Icon(Icons.group),
-                      label: Text('커뮤니티'),
-                      onPressed: () {
-                        _navigateTo(context, CommunityPage());
+                        Navigator.pushNamed(context, '/pg_ranking');
                       },
                     ),
                   ),
@@ -182,48 +207,6 @@ class MainPage extends StatelessWidget {
       child: IconButton(
         icon: Icon(icon, color: Colors.white),
         onPressed: onPressed,
-      ),
-    );
-  }
-}
-
-class SettingsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('설정 페이지'),
-      ),
-      body: Center(
-        child: Text('이곳은 설정 페이지입니다'),
-      ),
-    );
-  }
-}
-
-class RankingPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('랭킹 페이지'),
-      ),
-      body: Center(
-        child: Text('이곳은 랭킹 페이지입니다'),
-      ),
-    );
-  }
-}
-
-class CommunityPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('커뮤니티 페이지'),
-      ),
-      body: Center(
-        child: Text('이곳은 커뮤니티 페이지입니다'),
       ),
     );
   }

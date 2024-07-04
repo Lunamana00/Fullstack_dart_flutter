@@ -14,7 +14,7 @@ class DetailScreen extends StatelessWidget {
         child: Center(
           child: Container(
             width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.75,
+            height: MediaQuery.of(context).size.height * 0.8,
             padding: const EdgeInsets.all(20.0),
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 248, 240, 247),

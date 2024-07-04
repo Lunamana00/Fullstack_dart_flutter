@@ -30,6 +30,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ]),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -37,25 +48,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                     Image.asset(
                       'assets/fire.png',
                       width: MediaQuery.of(context).size.width * 0.1,
                       height: MediaQuery.of(context).size.width * 0.1,
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                     Text('5일 연속 기록중!',
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.15),
-                    IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/pg_main');
-                      },
-                    ),
                   ],
                 ),
               ),

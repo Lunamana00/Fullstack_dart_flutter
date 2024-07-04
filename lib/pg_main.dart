@@ -85,7 +85,7 @@ class MainPage extends StatelessWidget {
                   ],
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
                       width: MediaQuery.of(context).size.width * 0.6,
@@ -99,7 +99,7 @@ class MainPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: 40),
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(

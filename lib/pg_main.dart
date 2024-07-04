@@ -139,7 +139,8 @@ class MainPage extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -170,7 +171,8 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Widget _buildIconButton({required IconData icon, required VoidCallback onPressed}) {
+  Widget _buildIconButton(
+      {required IconData icon, required VoidCallback onPressed}) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(

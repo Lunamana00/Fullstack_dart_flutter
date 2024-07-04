@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'pg_write.dart';
 
 class DetailScreen extends StatelessWidget {
   final DateTime date;
@@ -12,7 +13,7 @@ class DetailScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Center(
           child: Container(
-            width:MediaQuery.of(context).size.width * 0.9,
+            width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.height * 0.75,
             padding: const EdgeInsets.all(20.0),
             decoration: BoxDecoration(
@@ -33,7 +34,8 @@ class DetailScreen extends StatelessWidget {
                   children: [
                     Text(
                       '${date.year}년 ${date.month}월 ${date.day}일',
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     IconButton(
                       icon: Icon(Icons.arrow_back, size: 30),
@@ -85,7 +87,8 @@ class DetailScreen extends StatelessWidget {
     );
   }
 
-  Widget buildItem(BuildContext context, {IconData? icon, Widget? customIcon, required String label}) {
+  Widget buildItem(BuildContext context,
+      {IconData? icon, Widget? customIcon, required String label}) {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -115,7 +118,16 @@ class DetailScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              Navigator.pushNamed(context, '/pg_main');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WriteScreen(
+                    date: this.date,
+                    icon: icon,
+                    customIcon: customIcon,
+                  ),
+                ),
+              );
             },
           ),
         ],

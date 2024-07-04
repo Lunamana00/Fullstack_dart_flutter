@@ -34,32 +34,37 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255),
-                  borderRadius: BorderRadius.circular(16.0),),
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
                 child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                  Image.asset('assets/fire.png',
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  height: MediaQuery.of(context).size.width * 0.1,
-                  ),
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                  Text('5일 연속 기록중!', style:TextStyle(fontSize: 24,fontWeight: FontWeight.bold)),
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.15),
-                  IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pushNamed(context,'/pg_main');
-                    },
-                  ),
-                ],
-              ),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                    Image.asset(
+                      'assets/fire.png',
+                      width: MediaQuery.of(context).size.width * 0.1,
+                      height: MediaQuery.of(context).size.width * 0.1,
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                    Text('5일 연속 기록중!',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.15),
+                    IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/pg_main');
+                      },
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.05),
               Container(
                 height: 12,
                 width: MediaQuery.of(context).size.width,
-                color: Color.fromARGB(255, 255, 255, 255),),
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.05),
               Container(
                 padding: const EdgeInsets.all(16.0),
@@ -128,7 +133,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Container(
                 height: 12,
                 width: MediaQuery.of(context).size.width,
-                color: Color.fromARGB(255, 255, 255, 255),),
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.05),
               Container(
                 padding: const EdgeInsets.all(16.0),
@@ -143,14 +149,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     ),
                   ],
                 ),
-                child: 
-                Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                      Text('Lv. 70 코딩', style: TextStyle(fontSize: 24,fontWeight:FontWeight.bold)),],
+                        Text('Lv. 70 코딩',
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold)),
+                      ],
                     ),
                     SizedBox(height: 8),
                     LinearProgressIndicator(value: 0.7, minHeight: 20),

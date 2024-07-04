@@ -52,8 +52,7 @@ class RegisterPage extends StatelessWidget {
                     Navigator.pushReplacementNamed(context, '/login');
                   },
                   child: Text('가입완료'),
-                  style: ElevatedButton.styleFrom(
-                  ),
+                  style: ElevatedButton.styleFrom(),
                 ),
               ],
             ),

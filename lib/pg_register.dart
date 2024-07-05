@@ -3,10 +3,14 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class RegisterPage extends StatelessWidget {
+  var selectedCharacter;
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController contactController = TextEditingController();
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  RegisterPage({required this.selectedCharacter});
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +64,7 @@ class RegisterPage extends StatelessWidget {
                         'name': nameController.text,
                         'id': idController.text,
                         'pw': passwordController.text,
+                        'char_type': selectedCharacter
                       }),
                     );
 

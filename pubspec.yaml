@@ -63,6 +63,22 @@ flutter:
   - assets/not_my_fault.png
   - assets/logo.png
   - assets/fire.png
+  - assets/char/cat1.png
+  - assets/char/cat2.png
+  - assets/char/cat3.png
+  - assets/char/dog1.png
+  - assets/char/dog2.png
+  - assets/char/dog3.png
+  - assets/char/polarbear1.png
+  - assets/char/polarbear2.png
+  - assets/char/polarbear3.png
+  - assets/char/redpanda1.png
+  - assets/char/redpanda2.png
+  - assets/char/redpanda3.png
+  
+
+
+  
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

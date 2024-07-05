@@ -84,7 +84,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/signup');
+                            Navigator.pushNamed(context, 'pg_charselect');
                           },
                           child: Text('회원가입'),
                           style: ElevatedButton.styleFrom(),

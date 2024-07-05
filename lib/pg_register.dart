@@ -41,10 +41,6 @@ class RegisterPage extends StatelessWidget {
                   decoration: InputDecoration(labelText: '이름'),
                 ),
                 TextField(
-                  controller: contactController,
-                  decoration: InputDecoration(labelText: '연락처'),
-                ),
-                TextField(
                   controller: idController,
                   decoration: InputDecoration(labelText: 'ID'),
                 ),
@@ -62,7 +58,6 @@ class RegisterPage extends StatelessWidget {
                       headers: {'Content-Type': 'application/json'},
                       body: jsonEncode({
                         'name': nameController.text,
-                        'p_num': contactController.text,
                         'id': idController.text,
                         'pw': passwordController.text,
                       }),
@@ -70,6 +65,9 @@ class RegisterPage extends StatelessWidget {
 
                     if (response.statusCode == 200) {
                       Navigator.pushReplacementNamed(context, '/login');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('회원가입 완료')),
+                      );
                     } else if (response.statusCode == 101) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('중복된 아이디 입니다')),
@@ -80,7 +78,7 @@ class RegisterPage extends StatelessWidget {
                       );
                     }
                   },
-                  child: Text('가입완료'),
+                  child: Text('회원가입'),
                   style: ElevatedButton.styleFrom(),
                 ),
               ],

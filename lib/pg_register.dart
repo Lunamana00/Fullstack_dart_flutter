@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RegisterPage extends StatelessWidget {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController contactController = TextEditingController();
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,26 +37,48 @@ class RegisterPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 TextField(
+                  controller: nameController,
                   decoration: InputDecoration(labelText: '이름'),
                 ),
                 TextField(
+                  controller: contactController,
                   decoration: InputDecoration(labelText: '연락처'),
                 ),
                 TextField(
-                  decoration: InputDecoration(labelText: 'Email'),
-                ),
-                TextField(
+                  controller: idController,
                   decoration: InputDecoration(labelText: 'ID'),
                 ),
                 TextField(
+                  controller: passwordController,
                   decoration: InputDecoration(labelText: 'Password'),
                   obscureText: true,
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    // 회원가입 로직
-                    Navigator.pushReplacementNamed(context, '/login');
+                  onPressed: () async {
+                    var url = Uri.parse('http://192.168.55.225:8080/register');
+                    var response = await http.post(
+                      url,
+                      headers: {'Content-Type': 'application/json'},
+                      body: jsonEncode({
+                        'name': nameController.text,
+                        'p_num': contactController.text,
+                        'id': idController.text,
+                        'pw': passwordController.text,
+                      }),
+                    );
+
+                    if (response.statusCode == 200) {
+                      Navigator.pushReplacementNamed(context, '/login');
+                    } else if (response.statusCode == 101) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('중복된 아이디 입니다')),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('회원가입 실패')),
+                      );
+                    }
                   },
                   child: Text('가입완료'),
                   style: ElevatedButton.styleFrom(),

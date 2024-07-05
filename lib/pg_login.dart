@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginPage extends StatelessWidget {
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +42,11 @@ class LoginPage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     TextField(
+                      controller: idController,
                       decoration: InputDecoration(labelText: 'ID'),
                     ),
                     TextField(
+                      controller: passwordController,
                       decoration: InputDecoration(labelText: 'Password'),
                       obscureText: true,
                     ),
@@ -48,21 +55,39 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/pg_main');
-                            // 로그인 로직
+                          onPressed: () async {
+                            var url =
+                                Uri.parse('http://192.168.55.225:8080/login');
+                            var response = await http.post(
+                              url,
+                              headers: {'Content-Type': 'application/json'},
+                              body: jsonEncode({
+                                'id': idController.text,
+                                'pw': passwordController.text,
+                              }),
+                            );
+
+                            if (response.statusCode == 200) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('로그인 성공')),
+                              );
+                              Navigator.pushNamed(context, '/pg_main');
+                            } else if (response.statusCode == 201) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('ID 혹은 비밀번호가 일치하지 않습니다')),
+                              );
+                            }
                           },
                           child: Text('로그인'),
-                          style: ElevatedButton.styleFrom(
-                          ),
+                          style: ElevatedButton.styleFrom(),
                         ),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/signup');
                           },
                           child: Text('회원가입'),
-                          style: ElevatedButton.styleFrom(
-                          ),
+                          style: ElevatedButton.styleFrom(),
                         ),
                       ],
                     ),

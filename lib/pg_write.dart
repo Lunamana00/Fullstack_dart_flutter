@@ -32,6 +32,7 @@ class _WriteScreenState extends State<WriteScreen> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'pg_record.dart';
 
-class CalendarScreen extends StatefulWidget {
+class CalendarPage extends StatefulWidget {
+  final IconData icon;
+  final String name;
+  final Map<String, dynamic> levelData;
+
+  CalendarPage(
+      {required this.icon, required this.name, required this.levelData});
+
   @override
-  _CalendarScreenState createState() => _CalendarScreenState();
+  _CalendarPageState createState() => _CalendarPageState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class _CalendarPageState extends State<CalendarPage> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -35,41 +42,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   icon: Icon(
                     Icons.arrow_back,
                     size: 30,
+                    color: Color.fromARGB(255, 0, 0, 0),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
               ]),
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/fire.png',
-                      width: MediaQuery.of(context).size.width * 0.1,
-                      height: MediaQuery.of(context).size.width * 0.1,
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                    Text('5일 연속 기록중!',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.05),
               Container(
-                height: 12,
-                width: MediaQuery.of(context).size.width,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.05),
-              Container(
+                height: MediaQuery.of(context).size.height * 0.5,
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255),
@@ -84,9 +66,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 child: TableCalendar(
                   firstDay: DateTime.utc(2022, 1, 1),
-                  lastDay: DateTime.utc(2024, 12, 31),
+                  lastDay: DateTime.utc(DateTime.now().year, 12, 31),
                   focusedDay: _focusedDay,
                   calendarFormat: _calendarFormat,
+                  availableCalendarFormats: const {CalendarFormat.month: ''},
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDay, day);
                   },
@@ -134,12 +117,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.05),
               Container(
-                height: 12,
-                width: MediaQuery.of(context).size.width,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.05),
-              Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -158,13 +135,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text('Lv. 70 코딩',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
+                        Icon(widget.icon, size: 40),
+                        SizedBox(width: 10),
+                        Text(
+                          'Lv. ${widget.levelData['lv']} ${widget.name}',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(height: 8),
-                    LinearProgressIndicator(value: 0.7, minHeight: 20),
+                    LinearProgressIndicator(
+                      value: widget.levelData['exp'] / 100,
+                      minHeight: 20,
+                    ),
                   ],
                 ),
               ),

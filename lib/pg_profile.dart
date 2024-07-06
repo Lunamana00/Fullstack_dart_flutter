@@ -25,9 +25,7 @@ class ProfilePage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            SizedBox(
-                height:
-                    MediaQuery.of(context).size.height * 0.05), // 앱 바 대신 상단 여백
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -69,20 +67,31 @@ class ProfilePage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Container(
+                    height: MediaQuery.of(context).size.height * 0.08,
                     width: MediaQuery.of(context).size.width * 0.8,
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: Colors.purple.shade50,
+                      color: Colors.purple.shade100,
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Lv.$level',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                        Container(
+                          height: MediaQuery.of(context).size.width * 0.13,
+                          width: MediaQuery.of(context).size.width * 0.13,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            '${userInfo[0]["u_lv"]}',
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                         SizedBox(width: 20),
@@ -90,30 +99,28 @@ class ProfilePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              name,
+                              userInfo[0]["name"], // 유저 이름 표시
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
                             ),
-                            SizedBox(height: 5),
+                            SizedBox(height: 7),
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.55,
+                              width: MediaQuery.of(context).size.width * 0.5,
                               height: 10,
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade300,
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              child: Align(
+                              child: FractionallySizedBox(
+                                widthFactor: userInfo[0]["u_exp"] / 100,
                                 alignment: Alignment.centerLeft,
-                                child: FractionallySizedBox(
-                                  widthFactor: exp / 100,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                 ),
                               ),
@@ -140,7 +147,7 @@ class ProfilePage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.8,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.purple.shade50,
+                      color: Colors.purple.shade100,
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                     child: Column(

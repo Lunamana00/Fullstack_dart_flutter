@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pg_profile.dart';
+import 'pg_calendar.dart';
 
 class MainPage extends StatelessWidget {
   final List<dynamic> userInfo;
@@ -50,25 +51,53 @@ class MainPage extends StatelessWidget {
                   _buildIconButton(
                     icon: Icons.code,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/pg_calendar');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CalendarPage(
+                                icon: Icons.code,
+                                name: '코딩',
+                                levelData: userInfo[1])),
+                      );
                     },
                   ),
                   _buildIconButton(
                     icon: Icons.book,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/pg_calendar');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CalendarPage(
+                                icon: Icons.book,
+                                name: '독서',
+                                levelData: userInfo[2])),
+                      );
                     },
                   ),
                   _buildIconButton(
                     icon: Icons.fitness_center,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/pg_calendar');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CalendarPage(
+                                icon: Icons.fitness_center,
+                                name: '운동',
+                                levelData: userInfo[3])),
+                      );
                     },
                   ),
                   _buildIconButton(
                     icon: Icons.music_note,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/pg_calendar');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CalendarPage(
+                                icon: Icons.music_note,
+                                name: '음악',
+                                levelData: userInfo[4])),
+                      );
                     },
                   ),
                 ],
@@ -133,57 +162,59 @@ class MainPage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.8,
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 225, 195, 229),
+                        color: Colors.purple.shade100,
                         borderRadius: BorderRadius.circular(16.0),
                       ),
-                      child: Column(
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
+                          Container(
+                            height: MediaQuery.of(context).size.width * 0.13,
+                            width: MediaQuery.of(context).size.width * 0.13,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              '${userInfo[0]["u_lv"]}',
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(width: 20),
                               Text(
-                                'Lv.${userInfo[0]["u_lv"]}', // 여기에 userInfo 사용
+                                userInfo[0]["name"], // 유저 이름 표시
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
                                 ),
                               ),
-                              SizedBox(width: 20),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    userInfo[0]["name"], // 유저 이름 표시
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.5,
-                                    height: 10,
+                              SizedBox(height: 7),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: FractionallySizedBox(
+                                  widthFactor: userInfo[0]["u_exp"] / 100,
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.grey.shade300,
+                                      color: Colors.green,
                                       borderRadius: BorderRadius.circular(5),
                                     ),
-                                    child: FractionallySizedBox(
-                                      widthFactor: userInfo[0]["u_exp"] / 100,
-                                      alignment: Alignment.centerLeft,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.green,
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
-                                      ),
-                                    ),
                                   ),
-                                ],
+                                ),
                               ),
                             ],
                           ),

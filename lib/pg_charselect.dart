@@ -3,9 +3,10 @@ import 'pg_register.dart';
 
 class Character {
   final String name;
+  final String type;
   final String imagePath;
 
-  Character({required this.name, required this.imagePath});
+  Character({required this.name, required this.type, required this.imagePath});
 }
 
 class CharacterSelectionPage extends StatefulWidget {
@@ -15,10 +16,12 @@ class CharacterSelectionPage extends StatefulWidget {
 
 class _CharacterSelectionPageState extends State<CharacterSelectionPage> {
   final List<Character> characters = [
-    Character(name: '냥이', imagePath: 'assets/char/cat1.png'),
-    Character(name: '멍이', imagePath: 'assets/char/dog1.png'),
-    Character(name: '곰이', imagePath: 'assets/char/polarbear1.png'),
-    Character(name: '레서', imagePath: 'assets/char/redpanda1.png')
+    Character(name: '냥이', type: 'cat', imagePath: 'assets/char/cat1.png'),
+    Character(name: '멍이', type: 'dog', imagePath: 'assets/char/dog1.png'),
+    Character(
+        name: '곰이', type: 'polarbear', imagePath: 'assets/char/polarbear1.png'),
+    Character(
+        name: '레서', type: 'redpanda', imagePath: 'assets/char/redpanda1.png')
   ];
 
   int currentIndex = 0;
@@ -38,7 +41,7 @@ class _CharacterSelectionPageState extends State<CharacterSelectionPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        RegisterPage(selectedCharacter: character.name),
+                        RegisterPage(selectedCharacter: character.type),
                   ),
                 );
               },

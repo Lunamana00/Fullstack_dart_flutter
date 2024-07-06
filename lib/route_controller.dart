@@ -8,7 +8,6 @@ import 'pg_charselect.dart';
 
 final Map<String, WidgetBuilder> route_controller = {
   '/login': (context) => LoginPage(),
-  '/pg_main': (context) => MainPage(),
   '/pg_calendar': (context) => CalendarScreen(),
   '/pg_ranking': (context) => RankingPage(),
   '/pg_profile': (context) => ProfilePage(),

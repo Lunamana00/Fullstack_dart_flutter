@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'pg_main.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController idController = TextEditingController();
@@ -9,6 +10,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.purple.shade100,
       body: Center(
         child: SingleChildScrollView(
@@ -68,10 +70,25 @@ class LoginPage extends StatelessWidget {
                             );
 
                             if (response.statusCode == 200) {
+                              var user = jsonDecode(response.body);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('로그인 성공')),
                               );
-                              Navigator.pushNamed(context, '/pg_main');
+
+                              // 유저 정보를 추가로 요청
+                              var userInfoUrl = Uri.parse(
+                                  'http://192.168.55.225:8080/user_info/${user['id']}');
+                              var userInfoResponse =
+                                  await http.get(userInfoUrl);
+                              var userInfo = jsonDecode(userInfoResponse.body);
+
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      MainPage(userInfo: userInfo),
+                                ),
+                              );
                             } else if (response.statusCode == 201) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

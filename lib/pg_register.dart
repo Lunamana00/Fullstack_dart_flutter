@@ -15,6 +15,7 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.purple.shade100,
       appBar: AppBar(
         title: Text('회원가입'),

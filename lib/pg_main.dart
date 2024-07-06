@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MainPage extends StatelessWidget {
+  final List<dynamic> userInfo;
+
+  MainPage({required this.userInfo});
+
   void _navigateTo(BuildContext context, Widget page) {
     Navigator.push(
       context,
@@ -11,6 +15,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.purple.shade100,
       body: Center(
         child: Column(
@@ -111,8 +116,9 @@ class MainPage extends StatelessWidget {
                         children: [
                           Row(
                             children: [
+                              SizedBox(width: 20),
                               Text(
-                                'Lv.50',
+                                'Lv.${userInfo[0]["u_lv"]}', // 여기에 userInfo 사용
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
@@ -124,7 +130,7 @@ class MainPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '김태현',
+                                    userInfo[0]["name"], // 유저 이름 표시
                                     style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
@@ -141,7 +147,7 @@ class MainPage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: FractionallySizedBox(
-                                      widthFactor: 0.75,
+                                      widthFactor: userInfo[0]["u_exp"] / 100,
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: Colors.green,

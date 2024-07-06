@@ -74,7 +74,7 @@ class MainPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -127,8 +127,9 @@ class MainPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                     Container(
+                      height: MediaQuery.of(context).size.height * 0.08,
                       width: MediaQuery.of(context).size.width * 0.8,
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
@@ -151,7 +152,7 @@ class MainPage extends StatelessWidget {
                               ),
                               SizedBox(width: 20),
                               Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     userInfo[0]["name"], // 유저 이름 표시

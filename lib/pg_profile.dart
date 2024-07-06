@@ -25,7 +25,9 @@ class ProfilePage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 60), // 앱 바 대신 상단 여백
+            SizedBox(
+                height:
+                    MediaQuery.of(context).size.height * 0.05), // 앱 바 대신 상단 여백
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -47,10 +49,10 @@ class ProfilePage extends StatelessWidget {
                     })
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.81,
+              height: MediaQuery.of(context).size.height * 0.85,
               padding: const EdgeInsets.all(20.0),
               decoration: BoxDecoration(
                 color: Colors.white,

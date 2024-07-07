@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:provider/provider.dart';
 import 'pg_record.dart';
+import 'info_provider.dart';
 
 class CalendarPage extends StatefulWidget {
-  final String id;
   final IconData icon;
   final String name;
   final Map<String, dynamic> levelData;
 
   CalendarPage(
-      {required this.id,
-      required this.icon,
+      {required this.icon,
       required this.name,
       required this.levelData});
 
@@ -33,6 +33,8 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserModel>(context);
+
     return Scaffold(
       backgroundColor: Colors.purple.shade100,
       body: Center(
@@ -86,7 +88,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            DetailScreen(id: widget.id, date: selectedDay),
+                            RecordPage(date: selectedDay),
                       ),
                     );
                   },

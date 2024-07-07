@@ -42,7 +42,7 @@ class ProfilePage extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MainPage(userInfo: userInfo)),
+                            builder: (context) => MainPage()),
                       );
                     })
               ],

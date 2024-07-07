@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'info_provider.dart';
 import 'pg_main.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final myip = '192.168.0.20';
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +61,7 @@ class LoginPage extends StatelessWidget {
                       children: <Widget>[
                         ElevatedButton(
                           onPressed: () async {
-                            var url =
-                                Uri.parse('http://192.168.55.225:8080/login');
+                            var url = Uri.parse('http://$myip:8080/login');
                             var response = await http.post(
                               url,
                               headers: {'Content-Type': 'application/json'},
@@ -77,16 +79,20 @@ class LoginPage extends StatelessWidget {
 
                               // 유저 정보를 추가로 요청
                               var userInfoUrl = Uri.parse(
-                                  'http://192.168.55.225:8080/user_info/${user['id']}');
+                                  'http://$myip:8080/user_info/${user['id']}');
                               var userInfoResponse =
                                   await http.get(userInfoUrl);
                               var userInfo = jsonDecode(userInfoResponse.body);
+
+                              // Provider로 상태 업데이트
+                              Provider.of<UserModel>(context, listen: false)
+                                  .updateUser(userInfo);
 
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      MainPage(userInfo: userInfo),
+                                      MainPage(), // 여기에 userInfo 필요 없음
                                 ),
                               );
                             } else if (response.statusCode == 201) {

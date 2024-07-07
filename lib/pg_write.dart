@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'info_provider.dart'; // Provider 클래스 정의 파일
 
 class WriteScreen extends StatefulWidget {
-  final String id;
   final DateTime date;
   final IconData? icon;
   final Widget? customIcon;
 
   WriteScreen({
-    required this.id,
     required this.date,
     this.icon,
     this.customIcon,
   });
+
+  final myip = '192.168.0.20';
 
   @override
   _WriteScreenState createState() => _WriteScreenState();
@@ -22,10 +24,12 @@ class WriteScreen extends StatefulWidget {
 
 class _WriteScreenState extends State<WriteScreen> {
   final TextEditingController _commentController = TextEditingController();
-  XFile? _image;
+  List<XFile> _images = [];
+
+  // 이미지 픽커 중복 실행 방지
   bool _isImagePickerActive = false;
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImages() async {
     if (_isImagePickerActive) return;
 
     setState(() {
@@ -34,13 +38,15 @@ class _WriteScreenState extends State<WriteScreen> {
 
     try {
       final ImagePicker _picker = ImagePicker();
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      final List<XFile>? images = await _picker.pickMultiImage();
 
-      setState(() {
-        _image = image;
-      });
+      if (images != null) {
+        setState(() {
+          _images.addAll(images);
+        });
+      }
     } catch (e) {
-      print('Error picking image: $e');
+      print('Error picking images: $e');
     } finally {
       setState(() {
         _isImagePickerActive = false;
@@ -49,17 +55,19 @@ class _WriteScreenState extends State<WriteScreen> {
   }
 
   Future<void> _uploadData() async {
-    var uri = Uri.parse('http://192.168.55.225:8080/upload');
+    var user = Provider.of<UserModel>(context, listen: false);
+
+    var uri = Uri.parse('http://${widget.myip}:8080/upload');
     var request = http.MultipartRequest('POST', uri)
       ..fields['text'] = _commentController.text
       ..fields['date'] = widget.date.toIso8601String()
-      ..fields['userName'] = widget.id; // 유저 이름 추가
+      ..fields['userName'] = user.id;
 
-    if (_image != null) {
+    for (var image in _images) {
       request.files.add(await http.MultipartFile.fromPath(
-        'image',
-        _image!.path,
-        filename: File(_image!.path).uri.pathSegments.last,
+        'images',
+        image.path,
+        filename: File(image.path).uri.pathSegments.last,
       ));
     }
 
@@ -68,14 +76,20 @@ class _WriteScreenState extends State<WriteScreen> {
     if (response.statusCode == 200) {
       print('Uploaded!');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('업로드 성공${widget.id}')),
+        SnackBar(content: Text('업로드 성공${user.id}')),
       );
     } else {
       print('Failed to upload.');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('업로드 실패${widget.id}')),
+        SnackBar(content: Text('업로드 실패${user.id}')),
       );
     }
+  }
+
+  void _removeImage(int index) {
+    setState(() {
+      _images.removeAt(index);
+    });
   }
 
   @override
@@ -148,18 +162,22 @@ class _WriteScreenState extends State<WriteScreen> {
                             Icon(widget.icon, size: 40)
                           else if (widget.customIcon != null)
                             widget.customIcon!,
-                          if (_image != null) ...[
-                            SizedBox(width: 10),
-                            Image.file(
-                              File(_image!.path),
-                              width: 50,
-                              height: 50,
-                            ),
-                          ],
+                          SizedBox(width: 10),
+                          ..._images.map((image) {
+                            int index = _images.indexOf(image);
+                            return GestureDetector(
+                              onLongPress: () => _removeImage(index),
+                              child: Image.file(
+                                File(image.path),
+                                width: 50,
+                                height: 50,
+                              ),
+                            );
+                          }).toList(),
                           Spacer(),
                           IconButton(
                             icon: Icon(Icons.add, size: 30),
-                            onPressed: _pickImage,
+                            onPressed: _pickImages,
                           ),
                         ],
                       ),
@@ -181,7 +199,7 @@ class _WriteScreenState extends State<WriteScreen> {
                           borderRadius: BorderRadius.circular(16.0)),
                       child: Container(
                         width: screenWidth * 0.9,
-                        height: screenHeight * 0.5, // 화면 높이에 맞춤
+                        height: screenHeight * 0.5,
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,15 +231,15 @@ class _WriteScreenState extends State<WriteScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Enter Comment'),
+          title: Text('코멘트를 입력해주세요'),
           content: TextField(
             controller: _commentController,
-            decoration: InputDecoration(hintText: 'Enter your comment here'),
+            decoration: InputDecoration(hintText: '코멘트 입력'),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, _commentController.text),
-              child: Text('OK'),
+              child: Text('입력'),
             ),
           ],
         );

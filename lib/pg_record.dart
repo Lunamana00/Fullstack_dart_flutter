@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'pg_write.dart';
+import 'info_provider.dart';
 
-class DetailScreen extends StatelessWidget {
-  final String id;
+class RecordPage extends StatelessWidget {
   final DateTime date;
 
-  DetailScreen({required this.id, required this.date});
+  RecordPage({required this.date});
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserModel>(context);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -35,8 +38,8 @@ class DetailScreen extends StatelessWidget {
                   children: [
                     Text(
                       '${date.year}년 ${date.month}월 ${date.day}일',
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     IconButton(
                       icon: Icon(Icons.arrow_back, size: 30),
@@ -50,25 +53,25 @@ class DetailScreen extends StatelessWidget {
                 buildItem(
                   context,
                   icon: Icons.code,
-                  label: 'Comment',
+                  label: '코딩',
                 ),
                 SizedBox(height: 20),
                 buildItem(
                   context,
                   icon: Icons.book,
-                  label: 'Comment',
+                  label: '독서',
                 ),
                 SizedBox(height: 20),
                 buildItem(
                   context,
                   icon: Icons.fitness_center,
-                  label: 'Comment',
+                  label: '운동',
                 ),
                 SizedBox(height: 20),
                 buildItem(
                   context,
                   icon: Icons.music_note,
-                  label: 'Comment',
+                  label: '음악',
                 ),
                 SizedBox(height: 20),
                 buildItem(
@@ -77,7 +80,7 @@ class DetailScreen extends StatelessWidget {
                     "ETC",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  label: 'Comment',
+                  label: '기타',
                 ),
                 SizedBox(height: 20),
               ],
@@ -90,6 +93,8 @@ class DetailScreen extends StatelessWidget {
 
   Widget buildItem(BuildContext context,
       {IconData? icon, Widget? customIcon, required String label}) {
+    var user = Provider.of<UserModel>(context);
+
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -111,7 +116,7 @@ class DetailScreen extends StatelessWidget {
               if (icon != null)
                 Icon(icon, size: 30)
               else if (customIcon != null)
-                customIcon,
+                customIcon!,
               SizedBox(height: 5),
               Text(label),
             ],
@@ -123,7 +128,6 @@ class DetailScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => WriteScreen(
-                    id: id,
                     date: this.date,
                     icon: icon,
                     customIcon: customIcon,

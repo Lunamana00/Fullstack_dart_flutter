@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'info_provider.dart';
 import 'pg_login.dart';
-import 'route_controller.dart';
 
-void main() => runApp(MyApp());
+
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserModel(
+        id: '',
+        name: '',
+        charType: '',
+        level: 1,
+        exp: 0,
+        coding: {'lv': 1, 'exp': 0},
+        reading: {'lv': 1, 'exp': 0},
+        fitness: {'lv': 1, 'exp': 0},
+        music: {'lv': 1, 'exp': 0},
+      ),
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -13,7 +32,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
       ),
       home: LoginPage(),
-      routes: route_controller,
     );
   }
 }

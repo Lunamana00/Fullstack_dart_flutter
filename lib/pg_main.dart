@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
-import 'pg_profile.dart';
+import 'package:provider/provider.dart';
+import 'info_provider.dart';
 import 'pg_calendar.dart';
+import 'pg_profile.dart';
 
 class MainPage extends StatelessWidget {
-  final List<dynamic> userInfo;
-
-  MainPage({required this.userInfo});
-
-  String setRoute() {
-    String route;
-    if (userInfo[0]['u_lv'] < 33) {
-      route = 'assets/char/${userInfo[0]["char_type"]}1.png';
-    } else if (userInfo[0]['u_lv'] < 66) {
-      route = 'assets/char/${userInfo[0]["char_type"]}2.png';
-    } else {
-      route = 'assets/char/${userInfo[0]["char_type"]}3.png';
-    }
-    return route;
-  }
-
   @override
   Widget build(BuildContext context) {
-    String route = setRoute();
+    var user = Provider.of<UserModel>(context);
+
+    String setRoute() {
+      String route;
+      if (user.level < 33) {
+        route = 'assets/char/${user.charType}1.png';
+      } else if (user.level < 66) {
+        route = 'assets/char/${user.charType}2.png';
+      } else {
+        route = 'assets/char/${user.charType}3.png';
+      }
+      return route;
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.purple.shade100,
@@ -54,11 +53,12 @@ class MainPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CalendarPage(
-                                id: userInfo[0]['id'],
-                                icon: Icons.code,
-                                name: '코딩',
-                                levelData: userInfo[1])),
+                          builder: (context) => CalendarPage(
+                            icon: Icons.code,
+                            name: '코딩',
+                            levelData: user.coding,
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -68,11 +68,12 @@ class MainPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CalendarPage(
-                                id: userInfo[0]['id'],
-                                icon: Icons.book,
-                                name: '독서',
-                                levelData: userInfo[2])),
+                          builder: (context) => CalendarPage(
+                            icon: Icons.book,
+                            name: '독서',
+                            levelData: user.reading,
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -82,11 +83,12 @@ class MainPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CalendarPage(
-                                id: userInfo[0]['id'],
-                                icon: Icons.fitness_center,
-                                name: '운동',
-                                levelData: userInfo[3])),
+                          builder: (context) => CalendarPage(
+                            icon: Icons.fitness_center,
+                            name: '운동',
+                            levelData: user.fitness,
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -96,35 +98,42 @@ class MainPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CalendarPage(
-                                id: userInfo[0]['id'],
-                                icon: Icons.music_note,
-                                name: '음악',
-                                levelData: userInfo[4])),
+                          builder: (context) => CalendarPage(
+                            icon: Icons.music_note,
+                            name: '음악',
+                            levelData: user.music,
+                          ),
+                        ),
                       );
                     },
                   ),
                 ],
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+            SizedBox(height: 16.0),
             GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfilePage(
-                      name: userInfo[0]['name'],
-                      level: userInfo[0]['u_lv'],
-                      exp: userInfo[0]['u_exp'],
+                      name: user.name,
+                      level: user.level,
+                      exp: user.exp,
                       levelData: [
-                        userInfo[1],
-                        userInfo[2],
-                        userInfo[3],
-                        userInfo[4]
+                        user.coding,
+                        user.reading,
+                        user.fitness,
+                        user.music,
                       ],
-                      route: route,
-                      userInfo: userInfo,
+                      route: setRoute(),
+                      userInfo: [
+                        user.id,
+                        user.name,
+                        user.charType,
+                        user.level,
+                        user.exp
+                      ],
                     ),
                   ),
                 );
@@ -155,70 +164,76 @@ class MainPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16.0),
                         image: DecorationImage(
-                          image: AssetImage(route), // 프로필 이미지 경로
+                          image: AssetImage(setRoute()), // 프로필 이미지 경로
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                    SizedBox(height: 20),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.08,
                       width: MediaQuery.of(context).size.width * 0.8,
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: Colors.purple.shade100,
+                        color: Color.fromARGB(255, 225, 195, 229),
                         borderRadius: BorderRadius.circular(16.0),
                       ),
-                      child: Row(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: MediaQuery.of(context).size.width * 0.13,
-                            width: MediaQuery.of(context).size.width * 0.13,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              '${userInfo[0]["u_lv"]}',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              Text(
-                                userInfo[0]["name"], // 유저 이름 표시
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(height: 7),
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                height: 10,
+                                height: 50,
+                                width: 50,
                                 decoration: BoxDecoration(
-                                  color: Colors.grey.shade300,
-                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: FractionallySizedBox(
-                                  widthFactor: userInfo[0]["u_exp"] / 100,
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Lv.${user.level}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
                                   ),
                                 ),
+                              ),
+                              SizedBox(width: 20),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    user.name,
+                                    style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(height: 7),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.5,
+                                    height: 7,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade300,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: FractionallySizedBox(
+                                      widthFactor: user.exp / 100,
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

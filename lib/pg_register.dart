@@ -5,14 +5,14 @@ import 'dart:convert';
 // ignore: must_be_immutable
 class RegisterPage extends StatelessWidget {
   var selectedCharacter;
-
+  
   final TextEditingController nameController = TextEditingController();
   final TextEditingController contactController = TextEditingController();
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   RegisterPage({required this.selectedCharacter});
-
+  final myip = '192.168.0.20';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +58,7 @@ class RegisterPage extends StatelessWidget {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
-                    var url = Uri.parse('http://192.168.55.225:8080/register');
+                    var url = Uri.parse('http://${myip}:8080/register');
                     var response = await http.post(
                       url,
                       headers: {'Content-Type': 'application/json'},

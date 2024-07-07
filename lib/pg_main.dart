@@ -55,6 +55,7 @@ class MainPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => CalendarPage(
+                                id: userInfo[0]['id'],
                                 icon: Icons.code,
                                 name: '코딩',
                                 levelData: userInfo[1])),
@@ -68,6 +69,7 @@ class MainPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => CalendarPage(
+                                id: userInfo[0]['id'],
                                 icon: Icons.book,
                                 name: '독서',
                                 levelData: userInfo[2])),
@@ -81,6 +83,7 @@ class MainPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => CalendarPage(
+                                id: userInfo[0]['id'],
                                 icon: Icons.fitness_center,
                                 name: '운동',
                                 levelData: userInfo[3])),
@@ -94,6 +97,7 @@ class MainPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => CalendarPage(
+                                id: userInfo[0]['id'],
                                 icon: Icons.music_note,
                                 name: '음악',
                                 levelData: userInfo[4])),

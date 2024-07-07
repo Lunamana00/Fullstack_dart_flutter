@@ -3,12 +3,16 @@ import 'package:table_calendar/table_calendar.dart';
 import 'pg_record.dart';
 
 class CalendarPage extends StatefulWidget {
+  final String id;
   final IconData icon;
   final String name;
   final Map<String, dynamic> levelData;
 
   CalendarPage(
-      {required this.icon, required this.name, required this.levelData});
+      {required this.id,
+      required this.icon,
+      required this.name,
+      required this.levelData});
 
   @override
   _CalendarPageState createState() => _CalendarPageState();
@@ -81,7 +85,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DetailScreen(date: selectedDay),
+                        builder: (context) =>
+                            DetailScreen(id: widget.id, date: selectedDay),
                       ),
                     );
                   },

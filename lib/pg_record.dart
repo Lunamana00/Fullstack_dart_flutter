@@ -78,7 +78,7 @@ class _RecordPageState extends State<RecordPage> {
                           IconButton(
                             icon: const Icon(Icons.arrow_back, size: 30),
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.pop(context, true);
                             },
                           ),
                         ],

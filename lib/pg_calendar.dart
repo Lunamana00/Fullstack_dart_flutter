@@ -3,13 +3,18 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:provider/provider.dart';
 import 'pg_record.dart';
 import 'info_provider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CalendarPage extends StatefulWidget {
   final IconData icon;
   final String name;
   final Map<String, dynamic> levelData;
 
-  CalendarPage({super.key, required this.icon, required this.name, required this.levelData});
+  CalendarPage(
+      {super.key, required this.icon,
+      required this.name,
+      required this.levelData});
 
   @override
   _CalendarPageState createState() => _CalendarPageState();
@@ -21,6 +26,7 @@ class _CalendarPageState extends State<CalendarPage> {
   DateTime? _selectedDay;
 
   List<DateTime> _streakDays = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -28,19 +34,39 @@ class _CalendarPageState extends State<CalendarPage> {
     _loadStreakDays();
   }
 
-  void _loadStreakDays() {
+  Future<void> _loadStreakDays() async {
     var user = Provider.of<UserModel>(context, listen: false);
     String subject = _getSubjectFromIcon(widget.icon);
-    List<String> dates = user.getDatesForSubject(subject);
 
-    setState(() {
-      _streakDays = dates.map((date) {
-        int year = int.parse(date.substring(0, 4));
-        int month = int.parse(date.substring(4, 6));
-        int day = int.parse(date.substring(6, 8));
-        return DateTime(year, month, day);
-      }).toList();
-    });
+    var response = await http.get(Uri.parse('http://${user.myip}:8080/user_info/${user.id}'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      List<String> dates = [];
+      if (subject == 'A') {
+        dates = List<String>.from(data[1]['dates']);
+      } else if (subject == 'B') {
+        dates = List<String>.from(data[2]['dates']);
+      } else if (subject == 'C') {
+        dates = List<String>.from(data[3]['dates']);
+      } else if (subject == 'D') {
+        dates = List<String>.from(data[4]['dates']);
+      }
+
+      setState(() {
+        _streakDays = dates.map((date) {
+          int year = int.parse(date.substring(0, 4));
+          int month = int.parse(date.substring(4, 6));
+          int day = int.parse(date.substring(6, 8));
+          return DateTime(year, month, day);
+        }).toList();
+        _isLoading = false;
+      });
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   String _getSubjectFromIcon(IconData icon) {
@@ -96,56 +122,59 @@ class _CalendarPageState extends State<CalendarPage> {
                     ),
                   ],
                 ),
-                child: TableCalendar(
-                  firstDay: DateTime.utc(2022, 1, 1),
-                  lastDay: DateTime.utc(DateTime.now().year, 12, 31),
-                  focusedDay: _focusedDay,
-                  calendarFormat: _calendarFormat,
-                  availableCalendarFormats: const {CalendarFormat.month: ''},
-                  selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
-                  },
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = focusedDay;
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecordPage(date: selectedDay),
-                      ),
-                    );
-                  },
-                  onFormatChanged: (format) {
-                    if (_calendarFormat != format) {
-                      setState(() {
-                        _calendarFormat = format;
-                      });
-                    }
-                  },
-                  onPageChanged: (focusedDay) {
-                    _focusedDay = focusedDay;
-                  },
-                  calendarBuilders: CalendarBuilders(
-                    defaultBuilder: (context, day, focusedDay) {
-                      for (DateTime d in _streakDays) {
-                        if (isSameDay(day, d)) {
-                          return Center(
-                            child: Text(
-                              '${day.day}',
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.bold,
-                              ),
+                child: _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : TableCalendar(
+                        firstDay: DateTime.utc(2022, 1, 1),
+                        lastDay: DateTime.utc(DateTime.now().year, 12, 31),
+                        focusedDay: _focusedDay,
+                        calendarFormat: _calendarFormat,
+                        availableCalendarFormats: const {CalendarFormat.month: ''},
+                        selectedDayPredicate: (day) {
+                          return isSameDay(_selectedDay, day);
+                        },
+                        onDaySelected: (selectedDay, focusedDay) async {
+                          setState(() {
+                            _selectedDay = selectedDay;
+                            _focusedDay = focusedDay;
+                          });
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RecordPage(date: selectedDay),
                             ),
                           );
-                        }
-                      }
-                      return null;
-                    },
-                  ),
-                ),
+                          if (result == true) {
+                            _loadStreakDays();
+                          }
+                        },
+                        onFormatChanged: (format) {
+                          if (_calendarFormat != format) {
+                            setState(() {
+                              _calendarFormat = format;
+                            });
+                          }
+                        },
+                        onPageChanged: (focusedDay) {
+                          _focusedDay = focusedDay;
+                        },
+                        calendarBuilders: CalendarBuilders(
+  defaultBuilder: (context, day, focusedDay) {
+    for (DateTime d in _streakDays) {
+      if (isSameDay(day, d)) {
+        return Center(
+          child: Icon(
+            Icons.check,
+            color: const Color.fromARGB(255, 255, 0, 0),
+            size: 30,
+          ),
+        );
+      }
+    }
+    return null;
+                          },
+                        ),
+                      ),
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.05),
               Container(

@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class UserModel extends ChangeNotifier {
   String id;
@@ -37,10 +39,15 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateExperienceAndLevel(String subject, int userExp, int userLevel, int subjectExp, int subjectLevel) {
+  void updateExperienceAndLevel(
+    String subject,
+    int userExp,
+    int userLevel,
+    int subjectExp,
+    int subjectLevel,
+  ) {
     exp = userExp;
     level = userLevel;
-
     if (subject == 'A') {
       A['exp'] = subjectExp;
       A['lv'] = subjectLevel;
@@ -54,21 +61,23 @@ class UserModel extends ChangeNotifier {
       D['exp'] = subjectExp;
       D['lv'] = subjectLevel;
     }
-
     notifyListeners();
   }
 
-  List<String> getDatesForSubject(String subject) {
-    if (subject == 'A') {
-      return List<String>.from(A['dates'] ?? []);
-    } else if (subject == 'B') {
-      return List<String>.from(B['dates'] ?? []);
-    } else if (subject == 'C') {
-      return List<String>.from(C['dates'] ?? []);
-    } else if (subject == 'D') {
-      return List<String>.from(D['dates'] ?? []);
-    } else {
-      return [];
+  Future<List<String>> fetchDatesForSubject(String subject) async {
+    final response = await http.get(Uri.parse('http://$myip:8080/user_info/$id'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (subject == 'A') {
+        return List<String>.from(data[1]['dates']);
+      } else if (subject == 'B') {
+        return List<String>.from(data[2]['dates']);
+      } else if (subject == 'C') {
+        return List<String>.from(data[3]['dates']);
+      } else if (subject == 'D') {
+        return List<String>.from(data[4]['dates']);
+      }
     }
+    return [];
   }
 }

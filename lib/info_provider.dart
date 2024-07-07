@@ -6,10 +6,10 @@ class UserModel extends ChangeNotifier {
   String charType;
   int level;
   int exp;
-  Map<String, dynamic> coding;
-  Map<String, dynamic> reading;
-  Map<String, dynamic> fitness;
-  Map<String, dynamic> music;
+  Map<String, dynamic> A;
+  Map<String, dynamic> B;
+  Map<String, dynamic> C;
+  Map<String, dynamic> D;
 
   UserModel({
     required this.id,
@@ -17,10 +17,10 @@ class UserModel extends ChangeNotifier {
     required this.charType,
     required this.level,
     required this.exp,
-    required this.coding,
-    required this.reading,
-    required this.fitness,
-    required this.music,
+    required this.A,
+    required this.B,
+    required this.C,
+    required this.D,
   });
 
   void updateUser(List<dynamic> userInfo) {
@@ -29,10 +29,10 @@ class UserModel extends ChangeNotifier {
     charType = userInfo[0]['char_type'];
     level = userInfo[0]['u_lv'];
     exp = userInfo[0]['u_exp'];
-    coding = userInfo[1];
-    reading = userInfo[2];
-    fitness = userInfo[3];
-    music = userInfo[4];
+    A = userInfo[1];
+    B = userInfo[2];
+    C = userInfo[3];
+    D = userInfo[4];
     notifyListeners();
   }
 }

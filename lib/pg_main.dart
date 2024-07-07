@@ -56,7 +56,7 @@ class MainPage extends StatelessWidget {
                           builder: (context) => CalendarPage(
                             icon: Icons.code,
                             name: '코딩',
-                            levelData: user.coding,
+                            levelData: user.A,
                           ),
                         ),
                       );
@@ -71,7 +71,7 @@ class MainPage extends StatelessWidget {
                           builder: (context) => CalendarPage(
                             icon: Icons.book,
                             name: '독서',
-                            levelData: user.reading,
+                            levelData: user.B,
                           ),
                         ),
                       );
@@ -86,7 +86,7 @@ class MainPage extends StatelessWidget {
                           builder: (context) => CalendarPage(
                             icon: Icons.fitness_center,
                             name: '운동',
-                            levelData: user.fitness,
+                            levelData: user.C,
                           ),
                         ),
                       );
@@ -101,7 +101,7 @@ class MainPage extends StatelessWidget {
                           builder: (context) => CalendarPage(
                             icon: Icons.music_note,
                             name: '음악',
-                            levelData: user.music,
+                            levelData: user.D,
                           ),
                         ),
                       );
@@ -117,23 +117,7 @@ class MainPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfilePage(
-                      name: user.name,
-                      level: user.level,
-                      exp: user.exp,
-                      levelData: [
-                        user.coding,
-                        user.reading,
-                        user.fitness,
-                        user.music,
-                      ],
                       route: setRoute(),
-                      userInfo: [
-                        user.id,
-                        user.name,
-                        user.charType,
-                        user.level,
-                        user.exp
-                      ],
                     ),
                   ),
                 );

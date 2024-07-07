@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'info_provider.dart';
 import 'pg_main.dart';
 
 class ProfilePage extends StatelessWidget {
-  final String name;
-  final int level;
-  final int exp;
-  final List<Map<String, dynamic>> levelData;
   final String route;
-  final List<dynamic> userInfo;
 
-  ProfilePage({
-    required this.name,
-    required this.level,
-    required this.exp,
-    required this.levelData,
-    required this.route,
-    required this.userInfo,
-  });
+  ProfilePage({required this.route});
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserModel>(context);
+
     return Scaffold(
       backgroundColor: Colors.purple.shade100,
       body: Center(
@@ -41,8 +33,7 @@ class ProfilePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => MainPage()),
+                        MaterialPageRoute(builder: (context) => MainPage()),
                       );
                     })
               ],
@@ -86,7 +77,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            '${userInfo[0]["u_lv"]}',
+                            '${user.level}',
                             style: TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
@@ -99,7 +90,7 @@ class ProfilePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              userInfo[0]["name"], // 유저 이름 표시
+                              user.name, // 유저 이름 표시
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -115,7 +106,7 @@ class ProfilePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: FractionallySizedBox(
-                                widthFactor: userInfo[0]["u_exp"] / 100,
+                                widthFactor: user.exp / 100,
                                 alignment: Alignment.centerLeft,
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -151,61 +142,12 @@ class ProfilePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                     child: Column(
-                      children: List.generate(levelData.length, (index) {
-                        final item = levelData[index];
-                        final i_icon = [
-                          Icons.code,
-                          Icons.book,
-                          Icons.fitness_center,
-                          Icons.music_note
-                        ];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Row(
-                            children: [
-                              Icon(i_icon[index], size: 40),
-                              SizedBox(width: 20),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Lv.${item["lv"]}',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.6,
-                                      height: 10,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.shade300,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: FractionallySizedBox(
-                                          widthFactor: item["exp"] / 100,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.green,
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
+                      children: [
+                        _buildLevelInfo(context, 'A', user.A),
+                        _buildLevelInfo(context, 'B', user.B),
+                        _buildLevelInfo(context, 'C', user.C),
+                        _buildLevelInfo(context, 'D', user.D),
+                      ],
                     ),
                   ),
                 ],
@@ -213,6 +155,59 @@ class ProfilePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildLevelInfo(BuildContext context, String label, Map<String, dynamic> data) {
+    final i_icon = {
+      'A': Icons.code,
+      'B': Icons.book,
+      'C': Icons.fitness_center,
+      'D': Icons.music_note
+    };
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Row(
+        children: [
+          Icon(i_icon[label], size: 40),
+          SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Lv.${data["lv"]}',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: FractionallySizedBox(
+                      widthFactor: data["exp"] / 100,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

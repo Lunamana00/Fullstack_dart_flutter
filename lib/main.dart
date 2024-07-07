@@ -5,6 +5,7 @@ import 'pg_login.dart';
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     ChangeNotifierProvider(
       create: (context) => UserModel(

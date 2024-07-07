@@ -21,10 +21,10 @@ class RecordPage extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.8,
             padding: const EdgeInsets.all(20.0),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 248, 240, 247),
+              color: const Color.fromARGB(255, 248, 240, 247),
               borderRadius: BorderRadius.circular(16.0),
               boxShadow: [
-                BoxShadow(
+                const BoxShadow(
                   color: Colors.black12,
                   blurRadius: 8.0,
                 ),
@@ -38,51 +38,51 @@ class RecordPage extends StatelessWidget {
                   children: [
                     Text(
                       '${date.year}년 ${date.month}월 ${date.day}일',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     IconButton(
-                      icon: Icon(Icons.arrow_back, size: 30),
+                      icon: const Icon(Icons.arrow_back, size: 30),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 buildItem(
                   context,
                   icon: Icons.code,
                   label: '코딩',
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 buildItem(
                   context,
                   icon: Icons.book,
                   label: '독서',
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 buildItem(
                   context,
                   icon: Icons.fitness_center,
                   label: '운동',
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 buildItem(
                   context,
                   icon: Icons.music_note,
                   label: '음악',
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 buildItem(
                   context,
-                  customIcon: Text(
+                  customIcon: const Text(
                     "ETC",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   label: '기타',
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -101,7 +101,7 @@ class RecordPage extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
-          BoxShadow(
+          const BoxShadow(
             color: Colors.black12,
             blurRadius: 8.0,
           ),
@@ -116,13 +116,13 @@ class RecordPage extends StatelessWidget {
               if (icon != null)
                 Icon(icon, size: 30)
               else if (customIcon != null)
-                customIcon!,
-              SizedBox(height: 5),
+                customIcon,
+              const SizedBox(height: 5),
               Text(label),
             ],
           ),
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.push(
                 context,

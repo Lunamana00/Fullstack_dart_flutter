@@ -10,7 +10,7 @@ class CalendarPage extends StatefulWidget {
   final Map<String, dynamic> levelData;
 
   CalendarPage(
-      {required this.icon,
+      {super.key, required this.icon,
       required this.name,
       required this.levelData});
 

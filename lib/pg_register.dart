@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -11,7 +13,7 @@ class RegisterPage extends StatelessWidget {
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  RegisterPage({required this.selectedCharacter});
+  RegisterPage({super.key, required this.selectedCharacter});
   final myip = '192.168.0.20';
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class RegisterPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.purple.shade100,
       appBar: AppBar(
-        title: Text('회원가입'),
+        title: const Text('회원가입'),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -34,7 +36,7 @@ class RegisterPage extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
@@ -44,18 +46,18 @@ class RegisterPage extends StatelessWidget {
               children: <Widget>[
                 TextField(
                   controller: nameController,
-                  decoration: InputDecoration(labelText: '이름'),
+                  decoration: const InputDecoration(labelText: '이름'),
                 ),
                 TextField(
                   controller: idController,
-                  decoration: InputDecoration(labelText: 'ID'),
+                  decoration: const InputDecoration(labelText: 'ID'),
                 ),
                 TextField(
                   controller: passwordController,
-                  decoration: InputDecoration(labelText: 'Password'),
+                  decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
                     var url = Uri.parse('http://${myip}:8080/register');
@@ -71,22 +73,23 @@ class RegisterPage extends StatelessWidget {
                     );
 
                     if (response.statusCode == 200) {
+                      // ignore: use_build_context_synchronously
                       Navigator.pushReplacementNamed(context, '/login');
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('회원가입 완료')),
+                        const SnackBar(content: Text('회원가입 완료')),
                       );
                     } else if (response.statusCode == 101) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('중복된 아이디 입니다')),
+                        const SnackBar(content: Text('중복된 아이디 입니다')),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('회원가입 실패')),
+                        const SnackBar(content: Text('회원가입 실패')),
                       );
                     }
                   },
-                  child: Text('회원가입'),
                   style: ElevatedButton.styleFrom(),
+                  child: const Text('회원가입'),
                 ),
               ],
             ),

@@ -92,7 +92,7 @@ class LoginPage extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      MainPage(), // 여기에 userInfo 필요 없음
+                                      MainPage()
                                 ),
                               );
                             } else if (response.statusCode == 201) {

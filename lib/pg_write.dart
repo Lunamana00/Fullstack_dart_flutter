@@ -3,7 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'info_provider.dart'; // Provider 클래스 정의 파일
+import 'info_provider.dart';
+import 'dart:convert'; // jsonEncode와 base64Encode를 사용하기 위해 dart:convert를 import
 
 class WriteScreen extends StatefulWidget {
   final DateTime date;
@@ -57,21 +58,31 @@ class _WriteScreenState extends State<WriteScreen> {
   Future<void> _uploadData() async {
     var user = Provider.of<UserModel>(context, listen: false);
 
-    var uri = Uri.parse('http://${widget.myip}:8080/upload');
-    var request = http.MultipartRequest('POST', uri)
-      ..fields['text'] = _commentController.text
-      ..fields['date'] = widget.date.toIso8601String()
-      ..fields['userName'] = user.id;
+    var url = Uri.parse('http://${widget.myip}:8080/upload');
 
+    // 아이콘 또는 customIcon의 이름을 결정
+    String iconName = widget.icon != null ? widget.icon!.toString() : widget.customIcon.runtimeType.toString();
+
+    // 이미지를 Base64 문자열로 변환
+    List<String> base64Images = [];
     for (var image in _images) {
-      request.files.add(await http.MultipartFile.fromPath(
-        'images',
-        image.path,
-        filename: File(image.path).uri.pathSegments.last,
-      ));
+      File imgFile = File(image.path);
+      List<int> imageBytes = await imgFile.readAsBytes();
+      String base64Image = base64Encode(imageBytes);
+      base64Images.add(base64Image);
     }
 
-    var response = await request.send();
+    var response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'id': user.id,
+        'date': widget.date.toIso8601String(),
+        'icon': iconName,
+        'images': base64Images,
+        'comment': _commentController.text
+      }),
+    );
 
     if (response.statusCode == 200) {
       print('Uploaded!');

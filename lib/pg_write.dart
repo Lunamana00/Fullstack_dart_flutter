@@ -55,13 +55,27 @@ class _WriteScreenState extends State<WriteScreen> {
     }
   }
 
+  String _getIconName() {
+    if (widget.icon == Icons.code) {
+      return 'A';
+    } else if (widget.icon == Icons.book) {
+      return 'B';
+    } else if (widget.icon == Icons.fitness_center) {
+      return 'C';
+    } else if (widget.icon == Icons.music_note) {
+      return 'D';
+    } else {
+      return 'ETC';
+    }
+  }
+
   Future<void> _uploadData() async {
     var user = Provider.of<UserModel>(context, listen: false);
 
     var url = Uri.parse('http://${widget.myip}:8080/upload');
 
-    // 아이콘 또는 customIcon의 이름을 결정
-    String iconName = widget.icon != null ? widget.icon!.toString() : widget.customIcon.runtimeType.toString();
+    // 아이콘 이름 결정
+    String iconName = _getIconName();
 
     // 이미지를 Base64 문자열로 변환
     List<String> base64Images = [];
@@ -71,13 +85,13 @@ class _WriteScreenState extends State<WriteScreen> {
       String base64Image = base64Encode(imageBytes);
       base64Images.add(base64Image);
     }
-
+    final parsedDate = DateTime.parse(widget.date.toIso8601String());
     var response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'id': user.id,
-        'date': widget.date.toIso8601String(),
+        'date': '${parsedDate.year}${parsedDate.month.toString().padLeft(2, '0')}${parsedDate.day.toString().padLeft(2, '0')}',
         'icon': iconName,
         'images': base64Images,
         'comment': _commentController.text

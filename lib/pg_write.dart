@@ -4,17 +4,22 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'info_provider.dart';
-import 'dart:convert'; // jsonEncode와 base64Encode를 사용하기 위해 dart:convert를 import
+import 'dart:convert';
+import 'dart:typed_data';
 
 class WriteScreen extends StatefulWidget {
   final DateTime date;
   final IconData? icon;
   final Widget? customIcon;
+  final List<Uint8List>? initialImages;
+  final String? initialComment;
 
   WriteScreen({
     required this.date,
     this.icon,
     this.customIcon,
+    this.initialImages,
+    this.initialComment,
   });
 
   final myip = '192.168.0.20';
@@ -24,11 +29,18 @@ class WriteScreen extends StatefulWidget {
 }
 
 class _WriteScreenState extends State<WriteScreen> {
-  final TextEditingController _commentController = TextEditingController();
-  List<XFile> _images = [];
+  late TextEditingController _commentController;
+  late List<Uint8List> _images;
 
   // 이미지 픽커 중복 실행 방지
   bool _isImagePickerActive = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _commentController = TextEditingController(text: widget.initialComment);
+    _images = widget.initialImages ?? [];
+  }
 
   Future<void> _pickImages() async {
     if (_isImagePickerActive) return;
@@ -43,7 +55,10 @@ class _WriteScreenState extends State<WriteScreen> {
 
       if (images != null) {
         setState(() {
-          _images.addAll(images);
+          for (var image in images) {
+            File imgFile = File(image.path);
+            _images.add(imgFile.readAsBytesSync());
+          }
         });
       }
     } catch (e) {
@@ -78,13 +93,7 @@ class _WriteScreenState extends State<WriteScreen> {
     String iconName = _getIconName();
 
     // 이미지를 Base64 문자열로 변환
-    List<String> base64Images = [];
-    for (var image in _images) {
-      File imgFile = File(image.path);
-      List<int> imageBytes = await imgFile.readAsBytes();
-      String base64Image = base64Encode(imageBytes);
-      base64Images.add(base64Image);
-    }
+    List<String> base64Images = _images.map((image) => base64Encode(image)).toList();
     final parsedDate = DateTime.parse(widget.date.toIso8601String());
     var response = await http.post(
       url,
@@ -103,6 +112,7 @@ class _WriteScreenState extends State<WriteScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('업로드 성공${user.id}')),
       );
+      Navigator.pop(context, {'images': _images, 'comment': _commentController.text});
     } else {
       print('Failed to upload.');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -135,7 +145,7 @@ class _WriteScreenState extends State<WriteScreen> {
                 IconButton(
                   icon: Icon(Icons.arrow_back, size: 30),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, {'images': _images, 'comment': _commentController.text});
                   },
                 ),
               ],
@@ -192,8 +202,8 @@ class _WriteScreenState extends State<WriteScreen> {
                             int index = _images.indexOf(image);
                             return GestureDetector(
                               onLongPress: () => _removeImage(index),
-                              child: Image.file(
-                                File(image.path),
+                              child: Image.memory(
+                                image,
                                 width: 50,
                                 height: 50,
                               ),

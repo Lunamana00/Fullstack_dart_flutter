@@ -36,4 +36,39 @@ class UserModel extends ChangeNotifier {
     D = userInfo[4];
     notifyListeners();
   }
+
+  void updateExperienceAndLevel(String subject, int userExp, int userLevel, int subjectExp, int subjectLevel) {
+    exp = userExp;
+    level = userLevel;
+
+    if (subject == 'A') {
+      A['exp'] = subjectExp;
+      A['lv'] = subjectLevel;
+    } else if (subject == 'B') {
+      B['exp'] = subjectExp;
+      B['lv'] = subjectLevel;
+    } else if (subject == 'C') {
+      C['exp'] = subjectExp;
+      C['lv'] = subjectLevel;
+    } else if (subject == 'D') {
+      D['exp'] = subjectExp;
+      D['lv'] = subjectLevel;
+    }
+
+    notifyListeners();
+  }
+
+  List<String> getDatesForSubject(String subject) {
+    if (subject == 'A') {
+      return List<String>.from(A['dates'] ?? []);
+    } else if (subject == 'B') {
+      return List<String>.from(B['dates'] ?? []);
+    } else if (subject == 'C') {
+      return List<String>.from(C['dates'] ?? []);
+    } else if (subject == 'D') {
+      return List<String>.from(D['dates'] ?? []);
+    } else {
+      return [];
+    }
+  }
 }

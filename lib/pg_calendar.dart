@@ -9,10 +9,7 @@ class CalendarPage extends StatefulWidget {
   final String name;
   final Map<String, dynamic> levelData;
 
-  CalendarPage(
-      {super.key, required this.icon,
-      required this.name,
-      required this.levelData});
+  CalendarPage({super.key, required this.icon, required this.name, required this.levelData});
 
   @override
   _CalendarPageState createState() => _CalendarPageState();
@@ -23,13 +20,42 @@ class _CalendarPageState extends State<CalendarPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  final List<DateTime> _streakDays = [
-    DateTime(2023, 8, 17),
-    DateTime(2023, 8, 16),
-    DateTime(2023, 8, 15),
-    DateTime(2023, 8, 14),
-    DateTime(2023, 8, 13),
-  ];
+  List<DateTime> _streakDays = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStreakDays();
+  }
+
+  void _loadStreakDays() {
+    var user = Provider.of<UserModel>(context, listen: false);
+    String subject = _getSubjectFromIcon(widget.icon);
+    List<String> dates = user.getDatesForSubject(subject);
+
+    setState(() {
+      _streakDays = dates.map((date) {
+        int year = int.parse(date.substring(0, 4));
+        int month = int.parse(date.substring(4, 6));
+        int day = int.parse(date.substring(6, 8));
+        return DateTime(year, month, day);
+      }).toList();
+    });
+  }
+
+  String _getSubjectFromIcon(IconData icon) {
+    if (icon == Icons.code) {
+      return 'A';
+    } else if (icon == Icons.book) {
+      return 'B';
+    } else if (icon == Icons.fitness_center) {
+      return 'C';
+    } else if (icon == Icons.music_note) {
+      return 'D';
+    } else {
+      return 'ETC';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +113,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            RecordPage(date: selectedDay),
+                        builder: (context) => RecordPage(date: selectedDay),
                       ),
                     );
                   },

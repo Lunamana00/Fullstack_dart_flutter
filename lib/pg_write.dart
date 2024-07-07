@@ -32,7 +32,6 @@ class _WriteScreenState extends State<WriteScreen> {
   late TextEditingController _commentController;
   late List<Uint8List> _images;
 
-  // 이미지 픽커 중복 실행 방지
   bool _isImagePickerActive = false;
 
   @override
@@ -89,10 +88,8 @@ class _WriteScreenState extends State<WriteScreen> {
 
     var url = Uri.parse('http://${widget.myip}:8080/upload');
 
-    // 아이콘 이름 결정
     String iconName = _getIconName();
 
-    // 이미지를 Base64 문자열로 변환
     List<String> base64Images = _images.map((image) => base64Encode(image)).toList();
     final parsedDate = DateTime.parse(widget.date.toIso8601String());
     var response = await http.post(
@@ -108,15 +105,15 @@ class _WriteScreenState extends State<WriteScreen> {
     );
 
     if (response.statusCode == 200) {
-      print('Uploaded!');
+      final responseData = jsonDecode(response.body);
+      user.updateExperienceAndLevel(iconName, responseData['userExp'], responseData['userLevel'], responseData['subjectExp'], responseData['subjectLevel']);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('업로드 성공${user.id}')),
+        SnackBar(content: Text('업로드 성공')),
       );
       Navigator.pop(context, {'images': _images, 'comment': _commentController.text});
     } else {
-      print('Failed to upload.');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('업로드 실패${user.id}')),
+        SnackBar(content: Text('업로드 실패')),
       );
     }
   }

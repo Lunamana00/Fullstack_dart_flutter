@@ -111,7 +111,7 @@ class MainPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 16.0),
+
             GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -124,7 +124,7 @@ class MainPage extends StatelessWidget {
                 );
               },
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.55,
+                height: MediaQuery.of(context).size.height * 0.52,
                 width: MediaQuery.of(context).size.width * 0.9,
                 margin: const EdgeInsets.all(20.0),
                 padding: const EdgeInsets.all(30.0),
@@ -144,8 +144,8 @@ class MainPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      height: MediaQuery.of(context).size.width * 0.75,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16.0),
                         image: DecorationImage(
@@ -154,10 +154,10 @@ class MainPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.04),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.08,
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.75,
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 225, 195, 229),
@@ -185,19 +185,19 @@ class MainPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 20),
+                              SizedBox(width: MediaQuery.of(context).size.width * 0.04),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     user.name,
                                     style: TextStyle(
-                                      fontSize: 25,
+                                      fontSize: MediaQuery.of(context).size.width * 0.06,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black,
                                     ),
                                   ),
-                                  SizedBox(height: 7),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                                   Container(
                                     width: MediaQuery.of(context).size.width *
                                         0.5,
@@ -229,16 +229,19 @@ class MainPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10.0),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
+                children: <Widget>[Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Container(
+                   
                     padding: const EdgeInsets.all(4.0),
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     child: ElevatedButton.icon(
                       icon: Icon(
                         Icons.star,
@@ -247,7 +250,7 @@ class MainPage extends StatelessWidget {
                       label: Text(
                         '랭킹',
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                            fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
                         Navigator.pushReplacement(
@@ -258,6 +261,33 @@ class MainPage extends StatelessWidget {
                       },
                     ),
                   ),
+                  SizedBox(width:MediaQuery.of(context).size.width * 0.02),
+                  Container(
+                    padding: const EdgeInsets.all(4.0),
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    child: ElevatedButton.icon(
+                      icon: Icon(
+                        Icons.people,
+                        size: 34,
+                      ),
+                      label: Text(
+                        '커뮤니티',
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      RankingPage()));
+                      },
+                    ),
+                  ),],
+
+                )
+                  
                 ],
               ),
             ),

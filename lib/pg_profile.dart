@@ -17,7 +17,7 @@ class ProfilePage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -99,7 +99,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                             SizedBox(height: 7),
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
+                              width: MediaQuery.of(context).size.width * 0.55,
                               height: 10,
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade300,
@@ -170,7 +170,7 @@ class ProfilePage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
         children: [
-          Icon(i_icon[label], size: 40),
+          Icon(i_icon[label], size: MediaQuery.of(context).size.width * 0.08),
           SizedBox(width: 20),
           Expanded(
             child: Column(
@@ -179,13 +179,13 @@ class ProfilePage extends StatelessWidget {
                 Text(
                   'Lv.${data["lv"]}',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize:  MediaQuery.of(context).size.width * 0.04,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 5),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.55,
                   height: 10,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade300,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fullstack_term_project/pg_ranking.dart';
 import 'package:provider/provider.dart';
 import 'info_provider.dart';
 import 'pg_calendar.dart';
@@ -249,7 +250,11 @@ class MainPage extends StatelessWidget {
                             fontSize: 30, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/pg_ranking');
+                        Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      RankingPage()));
                       },
                     ),
                   ),

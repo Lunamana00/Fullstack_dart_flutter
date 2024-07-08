@@ -45,67 +45,79 @@ class _RecordPageState extends State<RecordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.purple.shade100,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.95,
-            height: MediaQuery.of(context).size.height * 0.8,
-            padding: const EdgeInsets.all(20.0),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 248, 240, 247),
-              borderRadius: BorderRadius.circular(16.0),
-              boxShadow: [
-                const BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 8.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.black,size: 30,),
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 10,),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                height: MediaQuery.of(context).size.height * 0.73,
+                padding: const EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 248, 240, 247),
+                  borderRadius: BorderRadius.circular(16.0),
+                  boxShadow: [
+                    const BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 8.0,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: _isLoading
-                ? Center(child: CircularProgressIndicator())
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                child: _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            '${widget.date.year}년 ${widget.date.month}월 ${widget.date.day}일',
-                            style: const TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                '${widget.date.year}년 ${widget.date.month}월 ${widget.date.day}일',
+                                style: const TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.arrow_back, size: 30),
-                            onPressed: () {
-                              Navigator.pop(context, true);
-                            },
+                          const SizedBox(height: 20),
+                          buildItem(context, 'A', Icons.code, '코딩'),
+                          const SizedBox(height: 20),
+                          buildItem(context, 'B', Icons.book, '독서'),
+                          const SizedBox(height: 20),
+                          buildItem(context, 'C', Icons.fitness_center, '운동'),
+                          const SizedBox(height: 20),
+                          buildItem(context, 'D', Icons.music_note, '음악'),
+                          const SizedBox(height: 20),
+                          buildItem(
+                            context,
+                            'ETC',
+                            null,
+                            '기타',
+                            customIcon: const Text(
+                              "ETC",
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
                           ),
+                          const SizedBox(height: 20),
                         ],
                       ),
-                      const SizedBox(height: 20),
-                      buildItem(context, 'A', Icons.code, '코딩'),
-                      const SizedBox(height: 20),
-                      buildItem(context, 'B', Icons.book, '독서'),
-                      const SizedBox(height: 20),
-                      buildItem(context, 'C', Icons.fitness_center, '운동'),
-                      const SizedBox(height: 20),
-                      buildItem(context, 'D', Icons.music_note, '음악'),
-                      const SizedBox(height: 20),
-                      buildItem(
-                        context,
-                        'ETC',
-                        null,
-                        '기타',
-                        customIcon: const Text(
-                          "ETC",
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
+              ),
+            ],
           ),
         ),
       ),
@@ -160,10 +172,9 @@ class _RecordPageState extends State<RecordPage> {
                         children: record['images'].map<Widget>((image) {
                           Uint8List imageBytes = base64Decode(image);
                           return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
                             child: Image.memory(imageBytes,
-                                width: 30, height: 30),
+                                width: 30, height: 25),
                           );
                         }).toList(),
                       ),
@@ -190,8 +201,7 @@ class _RecordPageState extends State<RecordPage> {
                                   .map<Uint8List>((image) => base64Decode(image))
                                   .toList()
                               : [],
-                          initialComment:
-                              record != null ? record['comment'] : '',
+                          initialComment: record != null ? record['comment'] : '',
                         ),
                       ),
                     );

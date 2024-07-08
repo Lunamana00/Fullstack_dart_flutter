@@ -1,58 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'pg_main.dart';
 
-class RankingPage extends StatelessWidget {
-  final List<Map<String, dynamic>> rankingData = [
-    {
-      "rank": 1,
-      "level": 100,
-      "name": "김태현",
-      "categories": ["운동", "코딩", "독서"],
-      "change": 1
-    },
-    {
-      "rank": 2,
-      "level": 99,
-      "name": "B",
-      "categories": ["운동", "코딩", "독서"],
-      "change": 3
-    },
-    {
-      "rank": 3,
-      "level": 80,
-      "name": "C",
-      "categories": ["운동", "코딩", "독서"],
-      "change": 1
-    },
-    {
-      "rank": 4,
-      "level": 67,
-      "name": "D",
-      "categories": ["운동", "코딩", "독서"],
-      "change": 0
-    },
-    {
-      "rank": 5,
-      "level": 55,
-      "name": "E",
-      "categories": ["운동", "코딩", "독서"],
-      "change": 4
-    },
-    {
-      "rank": 6,
-      "level": 67,
-      "name": "F",
-      "categories": ["운동", "코딩", "독서"],
-      "change": 5
-    },
-    {
-      "rank": 7,
-      "level": 55,
-      "name": "G",
-      "categories": ["운동", "코딩", "독서"],
-      "change": 6
-    },
-    // 추가 데이터...
-  ];
+class RankingPage extends StatefulWidget {
+  @override
+  _RankingPageState createState() => _RankingPageState();
+}
+
+class _RankingPageState extends State<RankingPage> {
+  List<Map<String, dynamic>> rankingData = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchRankingData();
+  }
+
+  Future<void> _fetchRankingData() async {
+    final response = await http.get(Uri.parse('http://192.168.0.20:8080/ranking'));
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      data.sort((a, b) {
+        int scoreA = (a['u_lv'] ?? 0) * 100 + (a['u_exp'] ?? 0);
+        int scoreB = (b['u_lv'] ?? 0) * 100 + (b['u_exp'] ?? 0);
+        return scoreB.compareTo(scoreA); // 내림차순 정렬
+      });
+
+      setState(() {
+        rankingData = data.asMap().entries.map((entry) {
+          int index = entry.key;
+          var item = entry.value;
+          return {
+            "rank": index + 1,
+            "name": item["name"],
+            "level": item["u_lv"] ?? 0,
+            "categories": ["A", "B", "C", "D"], // 해당 사용자가 기록한 카테고리로 업데이트 필요
+            "change": item["change"] ?? 0, // 전일 대비 랭킹 변동값
+          };
+        }).toList();
+        isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to load ranking data');
+    }
+  }
+
+  IconData _getChangeIcon(int change) {
+    if (change > 0) {
+      return Icons.arrow_upward;
+    } else if (change < 0) {
+      return Icons.arrow_downward;
+    } else {
+      return Icons.remove;
+    }
+  }
+
+  Color _getChangeColor(int change) {
+    if (change > 0) {
+      return Colors.green;
+    } else if (change < 0) {
+      return Colors.red;
+    } else {
+      return Colors.grey;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +105,11 @@ class RankingPage extends StatelessWidget {
                         IconButton(
                           icon: Icon(Icons.arrow_back),
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MainPage(),
+                                ));
                           },
                         ),
                       ],
@@ -100,25 +117,37 @@ class RankingPage extends StatelessWidget {
                     Divider(color: Colors.black),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.7,
-                      child: ListView.builder(
-                        itemCount: rankingData.length,
-                        itemBuilder: (context, index) {
-                          final item = rankingData[index];
-                          return ListTile(
-                            title: Text(
-                              '${item["rank"]}st - Lv.${item["level"]} ${item["name"]}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                      child: isLoading
+                          ? Center(child: CircularProgressIndicator())
+                          : ListView.builder(
+                              itemCount: rankingData.length,
+                              itemBuilder: (context, index) {
+                                final item = rankingData[index];
+                                return ListTile(
+                                  title: Text(
+                                    '${item["rank"]}st - Lv.${item["level"]} ${item["name"]}',
+                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Text(item["categories"].join(" / ")),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        '${item["change"]}',
+                                        style: TextStyle(
+                                          color: _getChangeColor(item["change"]),
+                                        ),
+                                      ),
+                                      SizedBox(width: 4),
+                                      Icon(
+                                        _getChangeIcon(item["change"]),
+                                        color: _getChangeColor(item["change"]),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                            subtitle: Text(item["categories"].join(" / ")),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text('↑${item["change"]}'),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
                     ),
                   ],
                 ),

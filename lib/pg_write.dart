@@ -237,13 +237,16 @@ class _WriteScreenState extends State<WriteScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 10),
-                            Text(
-                              _commentController.text.isEmpty
-                                  ? ''
-                                  : _commentController.text,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [SizedBox(width: 10),
+                              Text(
+                              _commentController.text.isEmpty? '': _commentController.text,
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
+                            ),],
                             ),
+                            
                           ],
                         ),
                       ),

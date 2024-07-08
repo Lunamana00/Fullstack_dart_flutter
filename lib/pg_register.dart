@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'pg_login.dart';
 // ignore: must_be_immutable
 class RegisterPage extends StatelessWidget {
   var selectedCharacter;
@@ -74,7 +74,11 @@ class RegisterPage extends StatelessWidget {
 
                     if (response.statusCode == 200) {
                       // ignore: use_build_context_synchronously
-                      Navigator.pushReplacementNamed(context, '/login');
+                      Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      LoginPage()));
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('회원가입 완료')),
                       );

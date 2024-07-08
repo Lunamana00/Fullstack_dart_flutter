@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'info_provider.dart';
 import 'pg_main.dart';
+import 'pg_charselect.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController idController = TextEditingController();
@@ -107,7 +108,11 @@ class LoginPage extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, 'pg_charselect');
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      CharacterSelectionPage()));
                           },
                           child: Text('회원가입'),
                           style: ElevatedButton.styleFrom(),

@@ -12,9 +12,7 @@ class CalendarPage extends StatefulWidget {
   final Map<String, dynamic> levelData;
 
   CalendarPage(
-      {super.key, required this.icon,
-      required this.name,
-      required this.levelData});
+      {super.key, required this.icon, required this.name, required this.levelData});
 
   @override
   _CalendarPageState createState() => _CalendarPageState();
@@ -159,19 +157,55 @@ class _CalendarPageState extends State<CalendarPage> {
                           _focusedDay = focusedDay;
                         },
                         calendarBuilders: CalendarBuilders(
-  defaultBuilder: (context, day, focusedDay) {
-    for (DateTime d in _streakDays) {
-      if (isSameDay(day, d)) {
-        return Center(
-          child: Icon(
-            Icons.check,
-            color: const Color.fromARGB(255, 255, 0, 0),
-            size: 30,
-          ),
-        );
-      }
-    }
-    return null;
+                          defaultBuilder: (context, day, focusedDay) {
+                            for (DateTime d in _streakDays) {
+                              if (isSameDay(day, d)) {
+                                return Center(
+                                  child: Icon(
+                                    Icons.check,
+                                    color: const Color.fromARGB(255, 255, 0, 0),
+                                    size: 30,
+                                  ),
+                                );
+                              }
+                            }
+                            return Center(
+                              child: Text(
+                                '${day.day}',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            );
+                          },
+                          selectedBuilder: (context, day, focusedDay) {
+                            bool isStreakDay = _streakDays.any((d) => isSameDay(day, d));
+                            return Center(
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    width: 35,
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  if (isStreakDay)
+                                    Icon(
+                                      Icons.check,
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      size: 20,
+                                    ),
+                                  if (!isStreakDay)
+                                    Text(
+                                      '${day.day}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            );
                           },
                         ),
                       ),

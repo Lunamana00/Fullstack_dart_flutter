@@ -6,6 +6,7 @@ import 'pg_login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  //Provider 생성 / My App 실행 - 로그인화면
   runApp(
     ChangeNotifierProvider(
       create: (context) => UserModel(
@@ -26,12 +27,10 @@ void main() {
 
 class MyApp extends StatelessWidget {
   @override
+  // 로그인 화면
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Starting point',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
       home: LoginPage(),
     );
   }

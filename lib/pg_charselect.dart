@@ -32,7 +32,7 @@ class _CharacterSelectionPageState extends State<CharacterSelectionPage> {
       builder: (context) {
         return AlertDialog(
           content: Text('${character.name}를 선택하시겠습니까?',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           actions: [
             TextButton(
               onPressed: () {
@@ -45,13 +45,13 @@ class _CharacterSelectionPageState extends State<CharacterSelectionPage> {
                   ),
                 );
               },
-              child: Text('네'),
+              child: const Text('네'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('아니요'),
+              child: const Text('아니요'),
             ),
           ],
         );
@@ -63,7 +63,7 @@ class _CharacterSelectionPageState extends State<CharacterSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           '캐릭터 선택',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -72,7 +72,7 @@ class _CharacterSelectionPageState extends State<CharacterSelectionPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 90),
+          const SizedBox(height: 90),
           Expanded(
             child: PageView.builder(
               itemCount: characters.length,
@@ -86,12 +86,12 @@ class _CharacterSelectionPageState extends State<CharacterSelectionPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
-                          BoxShadow(
+                          const BoxShadow(
                             color: Colors.black26,
                             blurRadius: 10,
                             offset: Offset(0, 5),
@@ -106,10 +106,10 @@ class _CharacterSelectionPageState extends State<CharacterSelectionPage> {
                             width: 300,
                             height: 300,
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Text(
                             characters[index].name,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -125,15 +125,15 @@ class _CharacterSelectionPageState extends State<CharacterSelectionPage> {
               _showConfirmationDialog(characters[currentIndex]);
             },
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(200, 50),
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              minimumSize: const Size(200, 50),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             child: Text(
               '${characters[currentIndex].name} 선택',
             ),
           ),
-          SizedBox(height: 150)
+          const SizedBox(height: 150)
         ],
       ),
     );

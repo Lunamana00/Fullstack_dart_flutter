@@ -9,10 +9,10 @@ import 'pg_charselect.dart';
 class LoginPage extends StatelessWidget {
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final myip = '192.168.0.20';
 
   @override
   Widget build(BuildContext context) {
+    var _user = Provider.of<UserModel>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.purple.shade100,
@@ -22,7 +22,7 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(bottom: 20),
+                margin: const EdgeInsets.only(bottom: 20),
                 child: Image.asset(
                   'assets/logo.png',
                   width: MediaQuery.of(context).size.width * 0.7,
@@ -39,7 +39,7 @@ class LoginPage extends StatelessWidget {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 5,
                       blurRadius: 7,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -49,20 +49,20 @@ class LoginPage extends StatelessWidget {
                   children: <Widget>[
                     TextField(
                       controller: idController,
-                      decoration: InputDecoration(labelText: 'ID'),
+                      decoration: const InputDecoration(labelText: 'ID'),
                     ),
                     TextField(
                       controller: passwordController,
-                      decoration: InputDecoration(labelText: 'Password'),
+                      decoration: const InputDecoration(labelText: 'Password'),
                       obscureText: true,
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         ElevatedButton(
                           onPressed: () async {
-                            var url = Uri.parse('http://$myip:8080/login');
+                            var url = Uri.parse('http://${_user.myip}:8080/login');
                             var response = await http.post(
                               url,
                               headers: {'Content-Type': 'application/json'},
@@ -75,12 +75,12 @@ class LoginPage extends StatelessWidget {
                             if (response.statusCode == 200) {
                               var user = jsonDecode(response.body);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('로그인 성공')),
+                                const SnackBar(content: Text('로그인 성공')),
                               );
 
                               // 유저 정보를 추가로 요청
                               var userInfoUrl = Uri.parse(
-                                  'http://$myip:8080/user_info/${user['id']}');
+                                  'http://${_user.myip}:8080/user_info/${user['id']}');
                               var userInfoResponse =
                                   await http.get(userInfoUrl);
                               var userInfo = jsonDecode(userInfoResponse.body);
@@ -98,12 +98,12 @@ class LoginPage extends StatelessWidget {
                               );
                             } else if (response.statusCode == 201) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                     content: Text('ID 혹은 비밀번호가 일치하지 않습니다')),
                               );
                             }
                           },
-                          child: Text('로그인'),
+                          child: const Text('로그인'),
                           style: ElevatedButton.styleFrom(),
                         ),
                         ElevatedButton(
@@ -114,7 +114,7 @@ class LoginPage extends StatelessWidget {
                                   builder: (context) =>
                                       CharacterSelectionPage()));
                           },
-                          child: Text('회원가입'),
+                          child: const Text('회원가입'),
                           style: ElevatedButton.styleFrom(),
                         ),
                       ],

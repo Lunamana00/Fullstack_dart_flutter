@@ -87,7 +87,7 @@ class _RankingPageState extends State<RankingPage> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 5,
                       blurRadius: 7,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -95,15 +95,15 @@ class _RankingPageState extends State<RankingPage> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(width: 8),
-                        Icon(Icons.star),
-                        SizedBox(width: 8),
-                        Text('랭킹',
+                        const SizedBox(width: 8),
+                        const Icon(Icons.star),
+                        const SizedBox(width: 8),
+                        const Text('랭킹',
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold)),
-                        Spacer(),
+                        const Spacer(),
                         IconButton(
-                          icon: Icon(Icons.arrow_back),
+                          icon: const Icon(Icons.arrow_back),
                           onPressed: () {
                             Navigator.pushReplacement(
                                 context,
@@ -114,11 +114,11 @@ class _RankingPageState extends State<RankingPage> {
                         ),
                       ],
                     ),
-                    Divider(color: Colors.black),
+                    const Divider(color: Colors.black),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.7,
                       child: isLoading
-                          ? Center(child: CircularProgressIndicator())
+                          ? const Center(child: CircularProgressIndicator())
                           : ListView.builder(
                               itemCount: rankingData.length,
                               itemBuilder: (context, index) {
@@ -126,7 +126,7 @@ class _RankingPageState extends State<RankingPage> {
                                 return ListTile(
                                   title: Text(
                                     '${item["rank"]}st - Lv.${item["level"]} ${item["name"]}',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   subtitle: Text(item["categories"].join(" / ")),
                                   trailing: Row(
@@ -138,7 +138,7 @@ class _RankingPageState extends State<RankingPage> {
                                           color: _getChangeColor(item["change"]),
                                         ),
                                       ),
-                                      SizedBox(width: 4),
+                                      const SizedBox(width: 4),
                                       Icon(
                                         _getChangeIcon(item["change"]),
                                         color: _getChangeColor(item["change"]),

@@ -95,7 +95,7 @@ class _CalendarPageState extends State<CalendarPage> {
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_back,
                     size: 30,
                     color: Color.fromARGB(255, 0, 0, 0),
@@ -110,10 +110,10 @@ class _CalendarPageState extends State<CalendarPage> {
                 height: MediaQuery.of(context).size.height * 0.5,
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: const Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.circular(16.0),
                   boxShadow: [
-                    BoxShadow(
+                    const BoxShadow(
                       color: Color.fromARGB(31, 255, 154, 154),
                       blurRadius: 8.0,
                       offset: Offset(0, 4),
@@ -121,7 +121,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   ],
                 ),
                 child: _isLoading
-                    ? Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator())
                     : TableCalendar(
                         firstDay: DateTime.utc(2022, 1, 1),
                         lastDay: DateTime.utc(DateTime.now().year, 12, 31),
@@ -160,10 +160,10 @@ class _CalendarPageState extends State<CalendarPage> {
                           defaultBuilder: (context, day, focusedDay) {
                             for (DateTime d in _streakDays) {
                               if (isSameDay(day, d)) {
-                                return Center(
+                                return const Center(
                                   child: Icon(
                                     Icons.check,
-                                    color: const Color.fromARGB(255, 255, 0, 0),
+                                    color: Color.fromARGB(255, 255, 0, 0),
                                     size: 30,
                                   ),
                                 );
@@ -172,7 +172,7 @@ class _CalendarPageState extends State<CalendarPage> {
                             return Center(
                               child: Text(
                                 '${day.day}',
-                                style: TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black),
                               ),
                             );
                           },
@@ -185,13 +185,13 @@ class _CalendarPageState extends State<CalendarPage> {
                                   Container(
                                     width: 35,
                                     height: 35,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.blue,
                                       shape: BoxShape.circle,
                                     ),
                                   ),
                                   if (isStreakDay)
-                                    Icon(
+                                    const Icon(
                                       Icons.check,
                                       color: Color.fromARGB(255, 255, 255, 255),
                                       size: 20,
@@ -199,7 +199,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                   if (!isStreakDay)
                                     Text(
                                       '${day.day}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.white,
                                       ),
                                     ),
@@ -217,7 +217,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16.0),
                   boxShadow: [
-                    BoxShadow(
+                    const BoxShadow(
                       color: Colors.black12,
                       blurRadius: 8.0,
                       offset: Offset(0, 4),
@@ -231,17 +231,17 @@ class _CalendarPageState extends State<CalendarPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Icon(widget.icon, size: 40),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Text(
                           'Lv. ${widget.levelData['lv']} ${widget.name}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     LinearProgressIndicator(
                       value: widget.levelData['exp'] / 100,
                       minHeight: 20,

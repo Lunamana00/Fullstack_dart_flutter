@@ -8,6 +8,7 @@ import 'dart:typed_data';
 
 class RecordPage extends StatefulWidget {
   final DateTime date;
+  
 
   RecordPage({required this.date});
 
@@ -44,6 +45,7 @@ class _RecordPageState extends State<RecordPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.purple.shade100,
       body: Padding(
@@ -55,14 +57,14 @@ class _RecordPageState extends State<RecordPage> {
               Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.black,size: 30,),
+                    icon: const Icon(Icons.arrow_back, color: Colors.black,size: 30,),
                     onPressed: () {
                       Navigator.pop(context, true);
                     },
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Container(
                 width: MediaQuery.of(context).size.width * 0.95,
                 height: MediaQuery.of(context).size.height * 0.73,
@@ -78,7 +80,7 @@ class _RecordPageState extends State<RecordPage> {
                   ],
                 ),
                 child: _isLoading
-                    ? Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator())
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

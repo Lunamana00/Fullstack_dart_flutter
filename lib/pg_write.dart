@@ -108,12 +108,12 @@ class _WriteScreenState extends State<WriteScreen> {
       final responseData = jsonDecode(response.body);
       user.updateExperienceAndLevel(iconName, responseData['userExp'], responseData['userLevel'], responseData['subjectExp'], responseData['subjectLevel']);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('업로드 성공')),
+        const SnackBar(content: const Text('업로드 성공')),
       );
       Navigator.pop(context, {'images': _images, 'comment': _commentController.text});
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('업로드 실패')),
+        const SnackBar(content: Text('업로드 실패')),
       );
     }
   }
@@ -140,14 +140,14 @@ class _WriteScreenState extends State<WriteScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back, size: 30),
+                  icon: const Icon(Icons.arrow_back, size: 30),
                   onPressed: () {
                     Navigator.pop(context, {'images': _images, 'comment': _commentController.text});
                   },
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Container(
               width: screenWidth * 0.95,
               padding: const EdgeInsets.all(16.0),
@@ -159,7 +159,7 @@ class _WriteScreenState extends State<WriteScreen> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 5,
                     blurRadius: 7,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -170,21 +170,21 @@ class _WriteScreenState extends State<WriteScreen> {
                     children: [
                       Text(
                         '${widget.date.year}년 ${widget.date.month}월 ${widget.date.day}일',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       IconButton(
-                        icon: Icon(Icons.save, size: 30),
+                        icon: const Icon(Icons.save, size: 30),
                         onPressed: _uploadData,
                       ),
                     ],
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Container(
                     width: screenWidth * 0.9,
                     height: screenHeight * 0.08,
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 231, 197, 230),
+                        color: const Color.fromARGB(255, 231, 197, 230),
                         borderRadius: BorderRadius.circular(16.0)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -194,7 +194,7 @@ class _WriteScreenState extends State<WriteScreen> {
                             Icon(widget.icon, size: 40)
                           else if (widget.customIcon != null)
                             widget.customIcon!,
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           ..._images.map((image) {
                             int index = _images.indexOf(image);
                             return GestureDetector(
@@ -206,16 +206,16 @@ class _WriteScreenState extends State<WriteScreen> {
                               ),
                             );
                           }).toList(),
-                          Spacer(),
+                          const Spacer(),
                           IconButton(
-                            icon: Icon(Icons.add, size: 30),
+                            icon: const Icon(Icons.add, size: 30),
                             onPressed: _pickImages,
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   GestureDetector(
                     onTap: () async {
                       final String? comment = await _showCommentDialog(context);
@@ -227,7 +227,7 @@ class _WriteScreenState extends State<WriteScreen> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 231, 197, 230),
+                          color: const Color.fromARGB(255, 231, 197, 230),
                           borderRadius: BorderRadius.circular(16.0)),
                       child: Container(
                         width: screenWidth * 0.9,
@@ -236,13 +236,13 @@ class _WriteScreenState extends State<WriteScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [SizedBox(width: 10),
+                              children: [const SizedBox(width: 10),
                               Text(
                               _commentController.text.isEmpty? '': _commentController.text,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),],
                             ),
@@ -266,15 +266,15 @@ class _WriteScreenState extends State<WriteScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('코멘트를 입력해주세요'),
+          title: const Text('코멘트를 입력해주세요'),
           content: TextField(
             controller: _commentController,
-            decoration: InputDecoration(hintText: '코멘트 입력'),
+            decoration: const InputDecoration(hintText: '코멘트 입력'),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, _commentController.text),
-              child: Text('입력'),
+              child: const Text('입력'),
             ),
           ],
         );

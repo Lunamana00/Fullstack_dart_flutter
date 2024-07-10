@@ -139,9 +139,3 @@ class _CharacterSelectionPageState extends State<CharacterSelectionPage> {
     );
   }
 }
-
-void main() {
-  runApp(MaterialApp(
-    home: CharacterSelectionPage(),
-  ));
-}

@@ -1,20 +1,31 @@
-// ignore_for_file: use_build_context_synchronously, duplicate_ignore
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'info_provider.dart';
 import 'pg_login.dart';
-// ignore: must_be_immutable
-class RegisterPage extends StatelessWidget {
-  var selectedCharacter;
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+class RegisterPage extends StatefulWidget {
+  final String selectedCharacter;
   
+  RegisterPage({required this.selectedCharacter});
+
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController contactController = TextEditingController();
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  late UserModel user;
 
-  RegisterPage({super.key, required this.selectedCharacter});
-  final myip = '192.168.0.20';
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    user = Provider.of<UserModel>(context, listen: false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +71,7 @@ class RegisterPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
-                    var url = Uri.parse('http://${myip}:8080/register');
+                    var url = Uri.parse('http://${user.myip}:8080/register');
                     var response = await http.post(
                       url,
                       headers: {'Content-Type': 'application/json'},
@@ -68,7 +79,7 @@ class RegisterPage extends StatelessWidget {
                         'name': nameController.text,
                         'id': idController.text,
                         'pw': passwordController.text,
-                        'char_type': selectedCharacter
+                        'char_type': widget.selectedCharacter
                       }),
                     );
 

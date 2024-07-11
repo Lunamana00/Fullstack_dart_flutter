@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'info_provider.dart'; // Your UserModel definition should be in this file
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'pg_main.dart';
 
 class RankingPage extends StatefulWidget {
@@ -9,17 +11,19 @@ class RankingPage extends StatefulWidget {
 }
 
 class _RankingPageState extends State<RankingPage> {
-  List<Map<String, dynamic>> rankingData = [];
+  late UserModel _user;
   bool isLoading = true;
+  List<Map<String, dynamic>> rankingData = [];
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _user = Provider.of<UserModel>(context);
     _fetchRankingData();
   }
 
   Future<void> _fetchRankingData() async {
-    final response = await http.get(Uri.parse('http://192.168.0.20:8080/ranking'));
+    final response = await http.get(Uri.parse('http://${_user.myip}:8080/ranking'));
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
       data.sort((a, b) {

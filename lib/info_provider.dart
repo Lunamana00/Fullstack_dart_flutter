@@ -12,7 +12,7 @@ class UserModel extends ChangeNotifier {
   Map<String, dynamic> B;
   Map<String, dynamic> C;
   Map<String, dynamic> D;
-  String myip = '192.168.0.20';
+  String myip = '192.168.55.225';
 
   UserModel({
     required this.id,

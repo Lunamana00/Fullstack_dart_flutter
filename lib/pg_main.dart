@@ -260,6 +260,30 @@ class MainPage extends StatelessWidget {
                                       RankingPage()));
                       },
                     ),
+                  ),Container(
+                   
+                    padding: const EdgeInsets.all(4.0),
+                    
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.people,
+                        size: 34,
+                      ),
+                      label: Text(
+                        '커뮤니티',
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      RankingPage()));
+                      },
+                    ),
                   ),
                 ],
 
